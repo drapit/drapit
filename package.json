@@ -1,0 +1,21 @@
+{
+  "name": "01.rest-api-monolith",
+  "version": "1.0.0",
+  "description": "Template for building simple rest APIs using basic DDD principles.",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "build": "rm -rf dist/ && tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Modesto Figuereo <me@modestofiguereo.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^4.3.5"
+  },
+  "dependencies": {
+    "shallow-equal-object": "^1.1.1"
+  }
+}
