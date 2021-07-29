@@ -12,8 +12,15 @@ This template is built using DDD concepts, as well as Onion Architecture and Hex
 
 - JWT and Session Token authentication.
 - Feature toggling.
-- Swagger annotations for Rest API documentation.
 - History Recorder/Audit.
 - Code generation.
 - Worker queues (in memory, redis implementation, sqs implementation)
 - Easily changeable third party tools.
+- Multi Logger
+- API Versioning
+- Swagger annotations for Rest API documentation.
+- AWS S3 integration
+
+## Tech Stack
+
+@TODO
