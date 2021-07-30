@@ -1,4 +1,7 @@
-import Loggers from "infrastructure/enums/Loggers";
+import ConsoleLogger from "infrastructure/helpers/ConsoleLogger";
 
-export const logger = process.env.API_LOGGER || Loggers.CONSOLE;
 export const level = parseInt(process.env.API_LOGGING_LEVEL || '1', 10);
+
+export const loggers = [
+  new ConsoleLogger(),
+];
