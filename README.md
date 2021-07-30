@@ -1,7 +1,6 @@
 # DDD Rest API
 
-WIP
-
+**WIP**
 I just got tired of having to bootstrap projects from scratch. Most of the time Rest APIs have similar needs, so I decided to create a template that have most common tools needed in a REST API.
 
 ## Architecture
@@ -10,18 +9,20 @@ This template is built using DDD concepts, as well as Onion Architecture and Hex
 
 ## Features
 
-- JWT and Session Token authentication.
-- Event/Listeners
-- Feature toggling.
-- History Recorder/Audit.
-- Code generation.
-- Worker queues (in memory, redis implementation, sqs implementation)
-- Easily changeable third party tools.
-- Multi Logger
-- API Versioning
-- Swagger annotations for Rest API documentation.
-- AWS S3 integration
-- Socket.io integration
+| Feature | Description |
+|--|--|
+| JWT authentication | @TODO |
+| Session Token authentication | @TODO |
+| Feature toggling | @TODO |
+| Event/Listeners | @TODO |
+| History Recorder/Audit | @TODO |
+| Code generation | @TODO |
+| Worker queues | @TODO |
+| API Versioning | @TODO |
+| Swagger Rest API documentation | @TODO |
+| Multi logger | @TODO |
+| AWS S3 integration | @TODO |
+| Socket.io integration | @TODO |
 
 ## Tech Stack
 
