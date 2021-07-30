@@ -11,6 +11,7 @@ This template is built using DDD concepts, as well as Onion Architecture and Hex
 ## Features
 
 - JWT and Session Token authentication.
+- Event/Listeners
 - Feature toggling.
 - History Recorder/Audit.
 - Code generation.
@@ -20,6 +21,7 @@ This template is built using DDD concepts, as well as Onion Architecture and Hex
 - API Versioning
 - Swagger annotations for Rest API documentation.
 - AWS S3 integration
+- Socket.io integration
 
 ## Tech Stack
 
