@@ -1,6 +1,8 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 require("dotenv").config();
 
-import Server from "infrastructure/server/Server";
+import Server from "infrastructure/startup/Server";
+import EventListeners from "infrastructure/startup/EventListeners";
 
-Server.init();
+new EventListeners().setup();
+new Server().setup();

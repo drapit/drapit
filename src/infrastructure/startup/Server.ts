@@ -4,10 +4,11 @@ import compression from "compression";
 import bodyParser from "body-parser";
 import lusca from "lusca";
 import Logger from "application/services/Logger";
-import HomeRouter from "./routers/HomeRouter";
+import ISetup from "infrastructure/ISetup";
+import HomeRouter from "infrastructure/server/routers/HomeRouter";
 
-export default class Server {
-  public static init(): void {
+export default class Server implements ISetup {
+  public setup(): void {
     const { API_PAYLOAD_MAX_SIZE, API_PORT } = process.env;
 
     const app = express();
@@ -53,7 +54,7 @@ export default class Server {
 
   }
 
-  private static mount(router: Router): void {
+  private mount(router: Router): void {
     // Instantiate your routers here.
     new HomeRouter(router);
   }

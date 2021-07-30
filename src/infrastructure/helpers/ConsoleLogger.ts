@@ -1,7 +1,7 @@
 import { logging } from "config";
-import Loggeable from "application/interfaces/Loggeable";
+import ILogger from "application/interfaces/ILogger";
 
-export default class ConsoleLogger implements Loggeable {
+export default class ConsoleLogger implements ILogger {
   public verbose(...data: unknown[]): void {
     if (logging.level === 1) console.log(...data);
   }
