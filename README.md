@@ -23,6 +23,7 @@ This template is built using DDD concepts, as well as Onion Architecture and Hex
 | Multi logger | @TODO |
 | AWS S3 integration | @TODO |
 | Socket.io integration | @TODO |
+| Health Check | @TODO |
 
 ## Tech Stack
 

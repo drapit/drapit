@@ -1,4 +1,4 @@
-export default interface Loggeable {
+export default interface ILogger {
   verbose(...data: unknown[]): void;
   debug(...data: unknown[]): void;
   info(...data: unknown[]): void;
