@@ -17,8 +17,8 @@ This template is built using DDD concepts, as well as Onion Architecture and Hex
 | Decorator Routing | @TODO | Yes |
 | Decorator Swagger Documentation | @TODO | |
 | Health Check Endpoint | @TODO | Yes |
-| JWT Authentication | @TODO |  |
-| Session Token Authentication | @TODO | |
+| JWT Authentication | With Password, Client ID/Secrect and APIKEY support |  |
+| Session Token Authentication | With Password, Client ID/Secrect and APIKEY support | |
 | Client Id/Secret Authentication | @TODO | |
 | Websockets | @TODO | |
 | Decorator Dependency Injection | @TODO | |
