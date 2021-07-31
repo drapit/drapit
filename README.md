@@ -1,6 +1,8 @@
+
 # DDD Rest API
 
 **WIP**
+
 I just got tired of having to bootstrap projects from scratch. Most of the time Rest APIs have similar needs, so I decided to create a template that have most common tools needed in a REST API.
 
 ## Architecture
@@ -9,22 +11,31 @@ This template is built using DDD concepts, as well as Onion Architecture and Hex
 
 ## Features
 
-| Feature | Description |
-|--|--|
-| JWT authentication | @TODO |
-| Session Token authentication | @TODO |
-| Feature toggling | @TODO |
-| Event/Listeners | @TODO |
-| History Recorder/Audit | @TODO |
-| Code generation | @TODO |
-| Worker queues | @TODO |
-| API Versioning | @TODO |
-| Swagger Rest API documentation | @TODO |
-| Multi logger | @TODO |
-| AWS S3 integration | @TODO |
-| Socket.io integration | @TODO |
-| Health Check | @TODO |
-
+| Feature | Description | Implemented? |
+|--|--|--|
+| API Versioning | @TODO | |
+| Decorator Routing | @TODO | Yes |
+| Decorator Swagger Documentation | @TODO | |
+| Health Check Endpoint | @TODO | |
+| JWT Authentication | @TODO |  |
+| Session Token Authentication | @TODO | |
+| Socket.io Integration | @TODO | |
+| Decorator Dependency Injection | @TODO | |
+| Feature Toggling | @TODO | |
+| Event/Listeners | @TODO | |
+| File Uploading | @TODO | |
+| History Recorder/Audit | @TODO | |
+| Code Generation | @TODO | |
+| Worker Queues | @TODO | |
+| Multi Logger | @TODO | Yes |
+ 
 ## Tech Stack
 
-@TODO
+| Tool | Description |
+|--|--|
+| [Node.js](https://nodejs.org/) | Development platform |
+| [Typecript](https://www.typescriptlang.org/) | Programing language |
+| [Express](https://expressjs.com/) | Web server |
+| [ts-node](https://typestrong.org/ts-node/) | Development environment runner |
+| [Nodemon](https://nodemon.io/) | Changes watcher |
+| [Eslint](https://eslint.org/) | Code style enforcer |
