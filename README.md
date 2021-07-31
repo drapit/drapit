@@ -13,7 +13,7 @@ This template is built using DDD concepts, as well as Onion Architecture and Hex
 
 | Feature | Description | Implemented? |
 |:--|:--|:--|
-| API Versioning | @TODO | Yes |
+| API Versioning | Easily create controllers that respond to different versions (`/api/v1`, `/api/v2`...) of your public Rest API | Yes |
 | Decorator Routing | @TODO | Yes |
 | Decorator Swagger Documentation | @TODO | |
 | Health Check Endpoint | @TODO | Yes |
