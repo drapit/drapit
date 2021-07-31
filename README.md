@@ -12,11 +12,11 @@ This template is built using DDD concepts, as well as Onion Architecture and Hex
 ## Features
 
 | Feature | Description | Implemented? |
-|--|--|--|
+|:--|:--|:--|
 | API Versioning | @TODO | Yes |
 | Decorator Routing | @TODO | Yes |
 | Decorator Swagger Documentation | @TODO | |
-| Health Check Endpoint | @TODO | |
+| Health Check Endpoint | @TODO | Yes |
 | JWT Authentication | @TODO |  |
 | Session Token Authentication | @TODO | |
 | Socket.io Integration | @TODO | |
