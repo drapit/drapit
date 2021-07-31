@@ -13,7 +13,7 @@ This template is built using DDD concepts, as well as Onion Architecture and Hex
 
 | Feature | Description | Implemented? |
 |--|--|--|
-| API Versioning | @TODO | |
+| API Versioning | @TODO | Yes |
 | Decorator Routing | @TODO | Yes |
 | Decorator Swagger Documentation | @TODO | |
 | Health Check Endpoint | @TODO | |
