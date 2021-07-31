@@ -1,4 +1,4 @@
-import express, { Response, Request, Router } from "express";
+import express, { Response, Request, Router, Application } from "express";
 import cors from "cors";
 import compression from "compression";
 import bodyParser from "body-parser";
@@ -8,14 +8,13 @@ import ISetup from "infrastructure/ISetup";
 import APIRouter from "infrastructure/server/routers/APIRouter";
 import fs from "fs";
 import path from "path";
+import glob from "glob";
+
+const { API_PAYLOAD_MAX_SIZE, API_PORT } = process.env;
 
 export default class Server implements ISetup {
   public setup(): void {
-    const { API_PAYLOAD_MAX_SIZE, API_PORT } = process.env;
-
     const app = express();
-    const port = API_PORT;
-    const router = Router();
 
     app.disable("x-powered-by");
     app.use(cors());
@@ -41,29 +40,37 @@ export default class Server implements ISetup {
         },
       })
     );
-    // TODO: Think about API versioning
-    app.use("/api/v1", router);
+
+    this.loadVersions(app);
 
     app.get("/", (_: Request, res: Response) => {
       res.redirect("/api/v1");
     });
 
-    this.mount(router);
-
-    app.listen(port, () => {
-      Logger.verbose(`Example app listening at http://localhost:${port}`);
+    app.listen(API_PORT, () => {
+      Logger.verbose(`Example app listening at http://localhost:${API_PORT}`);
     });
   }
 
-  private mount(api: Router): void {
+  private loadVersions(app: Application) {
     const directory = path.join(__dirname, "../../controllers");
-    const isBaseController = (fileName: string) => fileName.indexOf('BaseController') !== -1;
 
-    fs.readdirSync(directory).forEach((fileName: string) => {
-      const fullPath = `${directory}/${fileName}`;
+    glob.sync(`${directory}/v*`).forEach((directoryPath: string) => {
+      if (!fs.lstatSync(path.resolve(directoryPath)).isDirectory()) return;
+      const directories = directoryPath.split("/");
+      const version = directories[directories.length - 1];
+      const router = Router();
+      app.use(`/api/${version}`, router);
+
+      this.mountControllers(directoryPath, router);
+    });
+  }
+
+  private mountControllers(directoryPath: string, api: Router): void {
+    fs.readdirSync(directoryPath).forEach((fileName: string) => {
+      const fullPath = `${directoryPath}/${fileName}`;
 
       if (fs.lstatSync(fullPath).isDirectory()) return;
-      if (isBaseController(fileName)) return;
 
       new APIRouter(this.import(fullPath), api).route();
     });

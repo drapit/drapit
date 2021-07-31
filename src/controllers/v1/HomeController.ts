@@ -1,6 +1,6 @@
 import { Controller, Get } from "decorators";
 import HttpResponse from "infrastructure/helpers/HttpResponse";
-import BaseController from "./BaseController";
+import BaseController from "controllers/BaseController";
 
 @Controller('/home')
 export default class HomeController extends BaseController {
