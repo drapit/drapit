@@ -20,7 +20,7 @@ This template is built using DDD concepts, as well as Onion Architecture and Hex
 | JWT Authentication | @TODO |  |
 | Session Token Authentication | @TODO | |
 | Client Id/Client Secret Authentication | @TODO | |
-| Socket.io Integration | @TODO | |
+| Websockets | @TODO | |
 | Decorator Dependency Injection | @TODO | |
 | Feature Toggling | @TODO | |
 | Event/Listeners | @TODO | |
