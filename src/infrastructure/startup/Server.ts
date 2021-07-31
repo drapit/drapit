@@ -5,7 +5,9 @@ import bodyParser from "body-parser";
 import lusca from "lusca";
 import Logger from "application/services/Logger";
 import ISetup from "infrastructure/ISetup";
-import HomeRouter from "infrastructure/server/routers/HomeRouter";
+import APIRouter from "infrastructure/server/routers/APIRouter";
+import fs from "fs";
+import path from "path";
 
 export default class Server implements ISetup {
   public setup(): void {
@@ -51,11 +53,24 @@ export default class Server implements ISetup {
     app.listen(port, () => {
       Logger.verbose(`Example app listening at http://localhost:${port}`);
     });
-
   }
 
-  private mount(router: Router): void {
-    // Instantiate your routers here.
-    new HomeRouter(router);
+  private mount(api: Router): void {
+    const directory = path.join(__dirname, "../../controllers");
+    const isBaseController = (fileName: string) => fileName.indexOf('BaseController') !== -1;
+
+    fs.readdirSync(directory).forEach((fileName: string) => {
+      const fullPath = `${directory}/${fileName}`;
+
+      if (fs.lstatSync(fullPath).isDirectory()) return;
+      if (isBaseController(fileName)) return;
+
+      new APIRouter(this.import(fullPath), api).route();
+    });
+  }
+
+  private import(path: string) {
+    // eslint-disable-next-line @typescript-eslint/no-var-requires
+    return require(path).default;
   }
 }
