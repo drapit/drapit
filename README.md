@@ -17,9 +17,8 @@ This template is built using DDD concepts, as well as Onion Architecture and Hex
 | Decorator Routing | Use decorators such as `@Controller('/people')`, `@Get('/')`, `@Get('/:id')`, `@Post('/')`, to route your endpoints | Yes |
 | Decorator Swagger Documentation | @TODO | |
 | Health Check Endpoint | @TODO | Yes |
-| JWT Authentication | With Password, Client ID/Secrect and APIKEY support |  |
-| Session Token Authentication | With Password, Client ID/Secrect and APIKEY support | |
-| Client Id/Secret Authentication | @TODO | |
+| JWT Authentication | With Password, Client ID/Secrect and API_KEY support |  |
+| Session Token Authentication | With Password, Client ID/Secrect and API_KEY support | |
 | Websockets | @TODO | |
 | Decorator Dependency Injection | @TODO | |
 | Feature Toggling | @TODO | |
