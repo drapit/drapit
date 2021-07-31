@@ -28,7 +28,7 @@ This template is built using DDD concepts, as well as Onion Architecture and Hex
 | History Recorder/Audit | @TODO | |
 | Code Generation | @TODO | |
 | Worker Queues | @TODO | |
-| Multi Logger | @TODO | Yes |
+| Multi Logger | User same interface (`Logger.info(...)`, `Logger.verbose(...)`, `Logger.error(...)`, etc) to log to multiple loggin services and the console. | Yes |
  
 ## Tech Stack
 
