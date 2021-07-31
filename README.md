@@ -19,6 +19,7 @@ This template is built using DDD concepts, as well as Onion Architecture and Hex
 | Health Check Endpoint | @TODO | Yes |
 | JWT Authentication | @TODO |  |
 | Session Token Authentication | @TODO | |
+| Client Id/Client Secret Authentication | @TODO | |
 | Socket.io Integration | @TODO | |
 | Decorator Dependency Injection | @TODO | |
 | Feature Toggling | @TODO | |
