@@ -3,7 +3,6 @@ import cors from "cors";
 import compression from "compression";
 import bodyParser from "body-parser";
 import lusca from "lusca";
-import Logger from "application/services/Logger";
 import ISetup from "infrastructure/ISetup";
 import APIRouter from "infrastructure/server/routers/APIRouter";
 import fs from "fs";
@@ -48,7 +47,7 @@ export default class Server implements ISetup {
     });
 
     app.listen(API_PORT, () => {
-      Logger.verbose(`Example app listening at http://localhost:${API_PORT}`);
+      Logger.info(`Example app listening at http://localhost:${API_PORT}`);
     });
   }
 

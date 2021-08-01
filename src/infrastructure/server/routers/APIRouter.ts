@@ -8,13 +8,14 @@ import ControllerAction from "./ControllerAction";
 export default class APIRouter {
   private path: string;
   private router: Router;
-  private controller: typeof BaseController;
-  private instance: BaseController;
+  private Controller: typeof BaseController;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private instance: any;
 
-  public constructor(controller: typeof BaseController, router: Router) {
-    this.controller = controller;
-    this.instance = new controller();
-    this.path = Reflect.getMetadata("prefix", controller);
+  public constructor(Controller: typeof BaseController, router: Router) {
+    this.Controller = Controller;
+    this.instance = new Controller();
+    this.path = Reflect.getMetadata("prefix", Controller);
     this.router = Router();
 
     router.use(this.sanitize(this.path), this.router);
@@ -24,7 +25,7 @@ export default class APIRouter {
     // Our `routes` array containing all our routes for this controller
     const routes: Array<RouteDefinition> = Reflect.getMetadata(
       "routes",
-      this.controller
+      this.Controller
     );
 
     routes.forEach((route) => {
@@ -35,7 +36,7 @@ export default class APIRouter {
           this.router.get(
             path,
             handler(
-              (this.instance as any)[route.actionName] as ControllerAction
+              this.instance[route.actionName]
             )
           );
           break;
@@ -43,7 +44,7 @@ export default class APIRouter {
           this.router.post(
             path,
             handler(
-              (this.instance as any)[route.actionName] as ControllerAction
+              this.instance[route.actionName]
             )
           );
           break;
@@ -51,7 +52,7 @@ export default class APIRouter {
           this.router.patch(
             path,
             handler(
-              (this.instance as any)[route.actionName] as ControllerAction
+              this.instance[route.actionName]
             )
           );
           break;
@@ -59,7 +60,7 @@ export default class APIRouter {
           this.router.put(
             path,
             handler(
-              (this.instance as any)[route.actionName] as ControllerAction
+              this.instance[route.actionName]
             )
           );
           break;
@@ -67,7 +68,7 @@ export default class APIRouter {
           this.router.delete(
             path,
             handler(
-              (this.instance as any)[route.actionName] as ControllerAction
+              this.instance[route.actionName]
             )
           );
           break;

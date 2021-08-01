@@ -3,7 +3,8 @@ import IEventManager from "application/interfaces/IEventManager";
 import Event from "application/domain/events/Event";
 import { events } from "config";
 
-export default class EventManager {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+(global as any).EventManager = class EventManager {
 
   private static manager: IEventManager = events.manager;
 
