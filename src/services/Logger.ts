@@ -1,7 +1,8 @@
 import ILogger from "application/interfaces/ILogger";
 import { logging } from "config";
 
-export default class Logger {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+(global as any).Logger = class Logger {
   private static loggers: ILogger[] = logging.loggers;
 
   public static verbose(...data: unknown[]): void {
