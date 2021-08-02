@@ -22,7 +22,7 @@ This template is built using DDD concepts, as well as Onion Architecture and Hex
 | Websockets | @TODO | |
 | Decorator Dependency Injection | @TODO | |
 | Feature Toggling | @TODO | |
-| Event/Listeners | @TODO | |
+| Event/Listeners | @TODO | In Progress |
 | File Uploading | @TODO | |
 | History Recorder/Audit | @TODO | |
 | Code Generation | @TODO | |
