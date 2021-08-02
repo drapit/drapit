@@ -15,7 +15,7 @@ This template is built using DDD concepts, as well as Onion Architecture and Hex
 |:--|:--|:--|
 | API Versioning | Easily create controllers that respond to different versions (`/api/v1`, `/api/v2`...) of your public Rest API | Yes |
 | Decorator Routing | Use decorators such as `@Controller('/people')`, `@Get('/')`, `@Get('/:id')`, `@Post('/')`, to route your endpoints | Yes |
-| Decorator Swagger Documentation | @TODO | |
+| Decorator Swagger Documentation | @TODO | In Progress |
 | Health Check Endpoint | @TODO | Yes |
 | JWT Authentication | With Password, Client ID/Secrect and API_KEY support |  |
 | Session Token Authentication | With Password, Client ID/Secrect and API_KEY support | |
