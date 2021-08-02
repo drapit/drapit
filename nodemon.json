@@ -2,5 +2,5 @@
   "watch": ["src"],
   "ext": "ts,json",
   "ignore": ["src/**/*.spec.ts"],
-  "exec": "NODE_PATH=./src ts-node ./src/app.ts"
+  "exec": "npm start"
 }

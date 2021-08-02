@@ -12,19 +12,22 @@ const Route = (path: string, httpMethod: AllowedHttpMethod): MethodDecorator => 
       target.constructor
     ) as Array<RouteDefinition>;
 
-    routes.push({
-      requestMethod: httpMethod,
-      path,
-      actionName: propertyKey.toString(),
-    });
+
+    const index = routes.findIndex(route => route.actionName === propertyKey); 
+    if (index != -1) {
+      routes[index].requestMethod = httpMethod,
+      routes[index].path = path;
+      routes[index].actionName = propertyKey.toString();
+    } else {
+      routes.push({
+        requestMethod: httpMethod,
+        path,
+        actionName: propertyKey.toString(),
+      });
+    }
 
     Reflect.defineMetadata("routes", routes, target.constructor);
   };
 };
 
-export const Get = (path: string): MethodDecorator => Route(path, 'get');
-export const Post = (path: string): MethodDecorator => Route(path, 'post');
-export const Patch = (path: string): MethodDecorator => Route(path, 'patch');
-export const Put = (path: string): MethodDecorator => Route(path, 'put');
-export const Delete = (path: string): MethodDecorator => Route(path, 'delete');
-
+export default Route;

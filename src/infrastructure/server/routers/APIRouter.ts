@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import BaseController from "controllers/BaseController";
-import { RouteDefinition } from "decorators/RouteDefinition";
+import { RouteDefinition } from "controllers/decorators/RouteDefinition";
 import { Router, Request, Response } from "express";
 import HttpResponse from "infrastructure/helpers/HttpResponse";
 import ControllerAction from "./ControllerAction";
@@ -29,47 +29,38 @@ export default class APIRouter {
     );
 
     routes.forEach((route) => {
-      const path = this.sanitize(route.path);
+      const path = this.sanitize(`${route.path}`);
+      Logger.debug(route);
 
       switch (route.requestMethod) {
         case "get":
           this.router.get(
             path,
-            handler(
-              this.instance[route.actionName]
-            )
+            handler(this.instance[route.actionName], route)
           );
           break;
         case "post":
           this.router.post(
             path,
-            handler(
-              this.instance[route.actionName]
-            )
+            handler(this.instance[route.actionName], route)
           );
           break;
         case "patch":
           this.router.patch(
             path,
-            handler(
-              this.instance[route.actionName]
-            )
+            handler(this.instance[route.actionName], route)
           );
           break;
         case "put":
           this.router.put(
             path,
-            handler(
-              this.instance[route.actionName]
-            )
+            handler(this.instance[route.actionName], route)
           );
           break;
         case "delete":
           this.router.delete(
             path,
-            handler(
-              this.instance[route.actionName]
-            )
+            handler(this.instance[route.actionName], route)
           );
           break;
         default:
@@ -104,10 +95,21 @@ export default class APIRouter {
 }
 
 const handler =
-  (action: ControllerAction) => async (req: Request, res: Response) => {
+  (action: ControllerAction, route: RouteDefinition) =>
+  async (req: Request, res: Response) => {
     try {
-      const params = { ...req.query, ...req.body };
-      const response = await action(params /*, req.User */);
+      const params = (route.parameters || []).map(({ in: from, Type }) => {
+        switch (from) {
+          case "query":
+            return new Type(req.query || {});
+          case "path":
+            return new Type(req.params || {});
+          case "body":
+          default:
+            return new Type(req.body || {});
+        }
+      });
+      const response = await action(...params /*, req.User */);
 
       return res.status(response.status).json(response);
     } catch (e) {

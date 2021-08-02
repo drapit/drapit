@@ -8,8 +8,9 @@ import APIRouter from "infrastructure/server/routers/APIRouter";
 import fs from "fs";
 import path from "path";
 import glob from "glob";
-
-const { API_PAYLOAD_MAX_SIZE, API_PORT } = process.env;
+import OpenApiGenerator from "infrastructure/server/openapi/OpenApiGenerator";
+import { OpenApiBuilder } from 'openapi3-ts';
+import * as config from 'config';
 
 export default class Server implements ISetup {
   public setup(): void {
@@ -22,12 +23,12 @@ export default class Server implements ISetup {
     app.use(
       bodyParser.urlencoded({
         extended: false,
-        limit: API_PAYLOAD_MAX_SIZE,
+        limit: config.api.payloadSize,
       })
     );
     app.use(
       bodyParser.json({
-        limit: API_PAYLOAD_MAX_SIZE,
+        limit: config.api.payloadSize,
       })
     );
     app.use(
@@ -42,12 +43,13 @@ export default class Server implements ISetup {
 
     this.loadVersions(app);
 
+    // TODO: Make this redirect configurable
     app.get("/", (_: Request, res: Response) => {
       res.redirect("/api/v1");
     });
 
-    app.listen(API_PORT, () => {
-      Logger.info(`Example app listening at http://localhost:${API_PORT}`);
+    app.listen(config.api.port, () => {
+      Logger.info(`Example app listening at http://localhost:${config.api.port}`);
     });
   }
 
@@ -61,17 +63,31 @@ export default class Server implements ISetup {
       const router = Router();
       app.use(`/api/${version}`, router);
 
-      this.mountControllers(directoryPath, router);
+      const documentation = new OpenApiBuilder();
+      documentation.addTitle(config.api.name);
+      documentation.addVersion(version);
+      documentation.addContact({
+        name: config.maintainer.name,
+        email: config.maintainer.email,
+        url: config.maintainer.url,
+      });
+
+      this.mountControllers(directoryPath, router, documentation);
     });
   }
 
-  private mountControllers(directoryPath: string, api: Router): void {
+  private mountControllers(directoryPath: string, api: Router, documentation: OpenApiBuilder): void {
     fs.readdirSync(directoryPath).forEach((fileName: string) => {
       const fullPath = `${directoryPath}/${fileName}`;
 
       if (fs.lstatSync(fullPath).isDirectory()) return;
 
       new APIRouter(this.import(fullPath), api).route();
+      new OpenApiGenerator(this.import(fullPath), documentation).generate();
+
+      api.get("/docs", (_: Request, res: Response) => {
+        return res.status(200).json(documentation.getSpec());
+      });
     });
   }
 

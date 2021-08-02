@@ -1,8 +1,9 @@
 import HttpResponse from "infrastructure/helpers/HttpResponse";
 
+
 // TODO: declare types for params and user
 type ControllerAction = (
-  params: unknown
+  ...params: unknown[]
   // user: unknown
 ) => Promise<HttpResponse<unknown>>;
 

@@ -38,6 +38,7 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "lusca": "^1.7.0",
+    "openapi3-ts": "^2.0.1",
     "reflect-metadata": "^0.1.13",
     "shallow-equal-object": "^1.1.1"
   }

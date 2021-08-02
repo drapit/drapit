@@ -3,6 +3,7 @@ import glob from "glob";
 import path from "path";
 import ISetup from "infrastructure/ISetup";
 
+// TODO: Add @Global decorator
 export default class GlobalServices implements ISetup {
   public setup(): void {
     const services = path.join(__dirname, "../../services");
