@@ -38,4 +38,5 @@ This template is built using DDD concepts, as well as Onion Architecture and Hex
 | [Express](https://expressjs.com/) | Web server |
 | [ts-node](https://typestrong.org/ts-node/) | Development environment runner |
 | [Nodemon](https://nodemon.io/) | Changes watcher |
-| [Eslint](https://eslint.org/) | Code style enforcer |
+| [Eslint](https://eslint.org/) | Code style enforcer |https://github.com/metadevpro/openapi3-ts
+| [openapi3-ts](https://github.com/metadevpro/openapi3-ts) | OpenAPI/Swagger Spec Generator |
