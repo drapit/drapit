@@ -55,19 +55,14 @@ export default class OpenApiGenerator {
     ];
     return route.responses?.reduce((responses, resposeForStatus) => {
       const response = {
-        description: resposeForStatus.description || '',
+        description: resposeForStatus.description || `${resposeForStatus.status}`,
         content: route.contentTypes?.reduce((schemas, contentType) => {
           return {
             ...schemas,
             [contentType]: !resposeForStatus.ResponseType ? {} : {
               schema: {
                 type: "object",
-                properties: Object.keys(new resposeForStatus!.ResponseType()).reduce((properties, property) => ({
-                  ...properties,
-                  [property]: {
-                    type: 'string',
-                  },
-                }), {}),
+                properties: resposeForStatus.schema,
                 // required: [], TODO: get from metadata
               },
             },
@@ -86,14 +81,13 @@ export default class OpenApiGenerator {
     return route.parameters
       ?.filter((parameter) => parameter.in !== "body")
       .map((parameter) => {
-        const instance = new parameter.ParameterType();
-
-        return Object.keys(instance).map((property) => ({
+        return parameter.properties.map((property) => ({
           in: parameter.in,
-          name: property,
-          required: false,
+          name: property.name,
+          required: property.required,
           schema: {
-            type: "string",
+            type: property.type,
+            format: property.format,
           },
         }));
       })
@@ -118,7 +112,7 @@ export default class OpenApiGenerator {
     if (["get", "delete"].includes(route.requestMethod!)) return;
     if (!route.parameters?.length) return;
     const body = route.parameters?.find((parameter) => parameter.in === "body");
-    console.log(route, body);
+    Logger.debug(JSON.stringify(route, null, 2), body);
     const { ParameterType } = body || ({} as ParametersDefinition);
     const instance = new ParameterType();
 

@@ -30,7 +30,6 @@ export default class APIRouter {
 
     routes.forEach((route) => {
       const path = this.sanitize(`${route.path}`);
-      Logger.debug(route);
 
       switch (route.requestMethod) {
         case "get":

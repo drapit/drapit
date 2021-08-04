@@ -1,27 +1,43 @@
 import "reflect-metadata";
-import { Body, Controller, Delete, Get, Path, Post, QueryString } from "controllers/decorators";
+import { 
+  Body, 
+  Controller, 
+  isDouble, 
+  Get, 
+  isInt64, 
+  Path, 
+  Post, 
+  QueryString, 
+  isString, 
+  isBoolean, 
+  Json, 
+  Responds, 
+  Xml, 
+  Resource 
+} from "controllers/decorators";
 import HttpResponse from "infrastructure/helpers/HttpResponse";
 import BaseController from "controllers/BaseController";
 import Header from "controllers/decorators/parameters/Header";
 import Cookie from "controllers/decorators/parameters/Cookie";
-import { ParametersDefinition, RouteDefinition } from "controllers/decorators/RouteDefinition";
-import { Json, Responds, Xml } from "controllers/decorators/responses";
 
+@Resource('Some description for the resource')
 class HealthCheckQueryString {
+  @isString()
   public testParam?: string;
+  @isInt64()
   public otherTestParam?: number;
+  @isDouble()
+  public otherTestParam2?: number;
+  @isBoolean()
   public justAnotherTestParam?: boolean;
   public constructor(params: Partial<HealthCheckQueryString> = {}) {
     this.testParam = params.testParam;
     this.otherTestParam = params.otherTestParam;
     this.justAnotherTestParam = params.justAnotherTestParam;
   }
-
-  public unMeth() {
-    return 'aaaaaaaaaaaa';
-  }
 }
 
+@Resource()
 class PathParameters {
   [key: string]: number;
 
@@ -32,8 +48,12 @@ class PathParameters {
   }
 }
 
+
+Resource('Some description for the resource')
 class HeadersParameters {
+  @isString()
   public oooo?: string;
+  @isString()
   public i?: string;
 
   public constructor(params: Partial<HeadersParameters> = {}) {
@@ -46,8 +66,8 @@ class HeadersParameters {
 export default class HealthCheckController extends BaseController {
 
   @Get('/')  
-  @Responds(200, null, "Successful response")
-  @Responds(404, null, "Results not found")
+  @Responds(200)
+  @Responds(404)
   @Xml() @Json() // TODO: default to Json and make it configurable
   public async check(): Promise<HttpResponse> {
     return HttpResponse.ok(null, 'Everything alright!');
@@ -56,6 +76,8 @@ export default class HealthCheckController extends BaseController {
   @Post('/test')
   @Responds(200, HealthCheckQueryString)
   @Xml() @Json() // TODO: default to Json and make it configurable
+  // @Accepts()
+  // @ContentType()
   public async test(
     @Header(HeadersParameters) header: HeadersParameters,
     @Path(PathParameters) pathParams: PathParameters,
