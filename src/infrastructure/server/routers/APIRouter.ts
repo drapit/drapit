@@ -98,10 +98,16 @@ const handler =
   (action: ControllerAction, route: RouteDefinition) =>
   async (req: Request, res: Response) => {
     try {
-      const params = (route.parameters || []).map(({ in: from, Type }) => {
+      console.log(req.cookies)
+      const params = (route.parameters || []).map(({ in: from, ParameterType: Type }) => {
         switch (from) {
           case "query":
             return new Type(req.query || {});
+          case "cookie":
+            return new Type(req.cookies || {});
+          case "header":
+            return new Type(req.headers || {});
+          // return Object.keys(req.headers || {}).reduce((headers, key) => ({...headers, [key]: req.headers[key]}), {});
           case "path":
             return new Type(req.params || {});
           case "body":

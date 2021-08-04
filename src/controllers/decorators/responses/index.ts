@@ -1,11 +1,10 @@
-export * from "./routes";
-export * from "./parameters";
+export { default as Responds } from "./Responds";
+export { default as Json } from "./Json";
+export { default as Xml } from "./Xml";
 
 // TODO: Think how to use components
 // TODO: Think about encoding
 // TODO: Think about OAuth
-
-// TODO: @Responds mmmm think about files and other things
 
 // TODO: @Resource
 // TODO: @ResourceProperty

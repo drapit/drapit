@@ -2,6 +2,7 @@ import express, { Response, Request, Router, Application } from "express";
 import cors from "cors";
 import compression from "compression";
 import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
 import lusca from "lusca";
 import ISetup from "infrastructure/ISetup";
 import APIRouter from "infrastructure/server/routers/APIRouter";
@@ -9,8 +10,8 @@ import fs from "fs";
 import path from "path";
 import glob from "glob";
 import OpenApiGenerator from "infrastructure/server/openapi/OpenApiGenerator";
-import { OpenApiBuilder } from 'openapi3-ts';
-import * as config from 'config';
+import { OpenApiBuilder } from "openapi3-ts";
+import * as config from "config";
 
 export default class Server implements ISetup {
   public setup(): void {
@@ -26,6 +27,7 @@ export default class Server implements ISetup {
         limit: config.api.payloadSize,
       })
     );
+    app.use(cookieParser());
     app.use(
       bodyParser.json({
         limit: config.api.payloadSize,
@@ -49,7 +51,9 @@ export default class Server implements ISetup {
     });
 
     app.listen(config.api.port, () => {
-      Logger.info(`Example app listening at http://localhost:${config.api.port}`);
+      Logger.info(
+        `Example app listening at http://localhost:${config.api.port}`
+      );
     });
   }
 
@@ -63,6 +67,7 @@ export default class Server implements ISetup {
       const router = Router();
       app.use(`/api/${version}`, router);
 
+      // TODO: add server info
       const documentation = new OpenApiBuilder();
       documentation.addTitle(config.api.name);
       documentation.addVersion(version);
@@ -76,7 +81,11 @@ export default class Server implements ISetup {
     });
   }
 
-  private mountControllers(directoryPath: string, api: Router, documentation: OpenApiBuilder): void {
+  private mountControllers(
+    directoryPath: string,
+    api: Router,
+    documentation: OpenApiBuilder
+  ): void {
     fs.readdirSync(directoryPath).forEach((fileName: string) => {
       const fullPath = `${directoryPath}/${fileName}`;
 

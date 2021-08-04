@@ -1,4 +1,4 @@
-import { ParametersDefinition, RouteDefinition } from "./RouteDefinition";
+import { ParametersDefinition, RouteDefinition } from "../RouteDefinition";
 
 const setParameter = (
   parameters: ParametersDefinition[] = [],
@@ -14,13 +14,15 @@ const setParameter = (
 // TODO: Automate testing
 // TODO: Create enum for parameter types
 const Parameter =
-  (from: "query" | "body" | "path") =>
-  <T>(Type: { new (...args: any[]): T }): ParameterDecorator => {
+  (from: "query" | "body" | "path" | "header" | "cookie") =>
+  <T>(ParameterType: { new (...args: any[]): T }, description?: string): ParameterDecorator => {
     return (
       target: Object,
       propertyKey: string | symbol,
       parameterIndex: number
     ) => {
+      const parameter = { in: from, ParameterType: ParameterType, description };
+
       if (!Reflect.hasMetadata("routes", target.constructor)) {
         Reflect.defineMetadata("routes", [], target.constructor);
       }
@@ -38,13 +40,10 @@ const Parameter =
         routes[index].parameters = setParameter(
           routes[index].parameters,
           parameterIndex,
-          { in: from, Type: Type }
+          parameter
         );
       } else {
-        const parameters = setParameter([], parameterIndex, {
-          in: from,
-          Type: Type,
-        });
+        const parameters = setParameter([], parameterIndex, parameter);
 
         routes.push({
           parameters: parameters,
