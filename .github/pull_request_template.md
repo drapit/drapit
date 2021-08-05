@@ -11,7 +11,7 @@
 - [ ] **Documentation** (change which enhances the documentation)
 - [ ] **Automated tests** (change which enhances automated test suites)
 
-Related to issue #(issue)
+> Related to issue **#(issue)** | **No related issue .**
 
 ### Summary
 > Please include a summary of the change and which issue is fixed. 
@@ -20,14 +20,14 @@ Related to issue #(issue)
 > Please also include relevant motivation and context.
 
 ### Dependencies
- List any dependencies that are required for this change. Replace with **None** if there aren't any.
+> List any dependencies that are required for this change. Replace with **None** if there aren't any.
  
 - [dependency one](https://example.com)
 - [dependency two](https://example.com)
 
 ## How Has This Been Tested?
 
-Please describe the tests that you ran to verify your changes. Provide instructions so we can reproduce. Please also list any relevant details for your test configuration.
+> Please describe the tests that you ran to verify your changes. Provide instructions so we can reproduce. Please also list any relevant details for your test configuration.
 
 - [ ] Test A
 - [ ] Test B
