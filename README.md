@@ -30,6 +30,7 @@ This template is built using DDD concepts, as well as Onion Architecture and Hex
 | Code Generation | @TODO | |
 | Worker Queues | @TODO | |
 | Locale Support | @TODO | |
+| Auto Generate PlantUML for Domain Model | @TODO | |
 | Multi Logger | User same interface (`Logger.info(...)`, `Logger.verbose(...)`, `Logger.error(...)`, etc) to log to multiple log aggregation providers and the console. | Yes |
  
 ## Tech Stack
