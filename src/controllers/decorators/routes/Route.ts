@@ -13,16 +13,16 @@ const Route = (path: string, httpMethod: AllowedHttpMethod): MethodDecorator => 
     ) as Array<RouteDefinition>;
 
 
-    const index = routes.findIndex(route => route.actionName === propertyKey); 
+    const index = routes.findIndex(route => route.name === propertyKey); 
     if (index != -1) {
       routes[index].requestMethod = httpMethod,
       routes[index].path = path;
-      routes[index].actionName = propertyKey.toString();
+      routes[index].name = propertyKey.toString();
     } else {
       routes.push({
         requestMethod: httpMethod,
         path,
-        actionName: propertyKey.toString(),
+        name: propertyKey.toString(),
       });
     }
 

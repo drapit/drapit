@@ -1,6 +1,6 @@
 {
-  "watch": ["src"],
+  "watch": ["src", ".global", "index.d.ts", ".env"],
   "ext": "ts,json",
   "ignore": ["src/**/*.spec.ts"],
-  "exec": "npm start"
+  "exec": "NODE_PATH=./src ts-node -r dotenv/config ./src/app.ts"
 }

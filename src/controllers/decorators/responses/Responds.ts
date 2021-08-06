@@ -40,9 +40,9 @@ const Responds = <R>(status: number, ResponseType?: { new (...args: any[]): R } 
       target.constructor
     ) as Array<RouteDefinition>;
 
-    const index = routes.findIndex(route => route.actionName === propertyKey); 
+    const index = routes.findIndex(route => route.name === propertyKey); 
     if (index != -1) {
-      routes[index].actionName = propertyKey.toString();
+      routes[index].name = propertyKey.toString();
       routes[index].responses = routes[index].responses || [];
       routes[index].responses?.push({
         description,
@@ -58,7 +58,7 @@ const Responds = <R>(status: number, ResponseType?: { new (...args: any[]): R } 
           ResponseType: ResponseType,
           schema,
         }],
-        actionName: propertyKey.toString(),
+        name: propertyKey.toString(),
       });
     }
 

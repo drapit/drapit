@@ -12,15 +12,15 @@ const MimeType = (mimeType: 'application/json' | 'application/xml') => (): Metho
     ) as Array<RouteDefinition>;
 
 
-    const index = routes.findIndex(route => route.actionName === propertyKey); 
+    const index = routes.findIndex(route => route.name === propertyKey); 
     if (index != -1) {
-      routes[index].actionName = propertyKey.toString();
+      routes[index].name = propertyKey.toString();
       routes[index].contentTypes = routes[index].contentTypes || [];
       routes[index].contentTypes?.push(mimeType);
     } else {
       routes.push({
         contentTypes: [mimeType],
-        actionName: propertyKey.toString(),
+        name: propertyKey.toString(),
       });
     }
 

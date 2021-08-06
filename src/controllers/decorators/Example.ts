@@ -1,7 +1,6 @@
-import { ResponsePropertyDefinition } from "../RouteDefinition";
+import { Property } from "./RouteDefinition";
 
-// TODO: enum for types
-const Type = (type: string, format?: string) => (): PropertyDecorator => {
+const Example = (example: string | number | boolean): PropertyDecorator => {
   return (target: Object, propertyKey: string | symbol): void => {
     if (!Reflect.hasMetadata("properties", target.constructor)) {
       Reflect.defineMetadata("properties", [], target.constructor);
@@ -10,18 +9,16 @@ const Type = (type: string, format?: string) => (): PropertyDecorator => {
     const properties = Reflect.getMetadata(
       "properties",
       target.constructor
-    ) as Array<ResponsePropertyDefinition>;
+    ) as Array<Property>;
 
     const index = properties.findIndex(route => route.name === propertyKey); 
     if (index != -1) {
       properties[index].name = propertyKey.toString();
-      properties[index].type = type;
-      properties[index].format = format;
+      properties[index].example = example;
     } else {
       properties.push({
         name: propertyKey.toString(),
-        type: type,
-        format: format,
+        example,
       });
     }
 
@@ -29,4 +26,4 @@ const Type = (type: string, format?: string) => (): PropertyDecorator => {
   };
 };
 
-export default Type;
+export default Example;

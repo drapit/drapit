@@ -53,6 +53,8 @@ const Parameter =
               required: false, // NOTICE: hard coded for now
               type: property.type!,
               format: property.format,
+              description: property.description,
+              example: property.example
             };
           } else {
             return {
@@ -77,7 +79,7 @@ const Parameter =
       ) as Array<RouteDefinition>;
 
       const index = routes.findIndex(
-        (route) => route.actionName === propertyKey
+        (route) => route.name === propertyKey
       );
 
       if (index != -1) {
@@ -91,7 +93,7 @@ const Parameter =
 
         routes.push({
           parameters: parameters,
-          actionName: propertyKey.toString(),
+          name: propertyKey.toString(),
         });
       }
 

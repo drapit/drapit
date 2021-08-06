@@ -1,11 +1,15 @@
 export type AllowedHttpMethod = "get" | "post" | "patch" | "put" | "delete" ;
 
-export type ParameterPropertyDefinition = {
+export type Property = {
   name: string,
-  required: boolean, // NOTICE: hard coded for now
-  type: string,
+  type?: string,
   format?: string,
-}
+  description?: string;
+  example?: string | number | boolean;
+};
+
+export type ParameterPropertyDefinition = Property & { required: boolean };
+
 export type ParametersDefinition = {
   in: "query" | "body" | "path" | "header" | "cookie";
   ParameterType: { new(...args: any[]): any };
@@ -16,18 +20,14 @@ export type ParametersDefinition = {
 export type RouteDefinition = {
   path?: string;
   requestMethod?: AllowedHttpMethod;
-  actionName: string;
+  name: string;
   parameters?: ParametersDefinition[];
   responses?: ResponseDefinition[];
   contentTypes?: string[];
-}
-
-export type ResponsePropertyDefinition = {
-  name: string;
-  type?: string;
-  format?: string;
   description?: string;
 }
+
+export type ResponsePropertyDefinition = Property;
 
 export type ResponseDefinition = {
   description?: string;

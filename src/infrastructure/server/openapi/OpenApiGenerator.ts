@@ -37,6 +37,7 @@ export default class OpenApiGenerator {
       const path = this.sanitize(this.path) + this.sanitize(`${route.path}`);
       const pathItems: PathItemObject = {
         [`${route.requestMethod}`]: {
+          description: route.description,
           parameters: this.generateParameters(route),
           requestBody: this.generateRequestBody(route),
           responses: this.generateResponses(route),
@@ -85,10 +86,12 @@ export default class OpenApiGenerator {
           in: parameter.in,
           name: property.name,
           required: property.required,
+          description: property.description,
           schema: {
             type: property.type,
             format: property.format,
           },
+          example: property.example
         }));
       })
       .reduce(
@@ -112,9 +115,8 @@ export default class OpenApiGenerator {
     if (["get", "delete"].includes(route.requestMethod!)) return;
     if (!route.parameters?.length) return;
     const body = route.parameters?.find((parameter) => parameter.in === "body");
+    if (body == null) return;
     Logger.debug(JSON.stringify(route, null, 2), body);
-    const { ParameterType } = body || ({} as ParametersDefinition);
-    const instance = new ParameterType();
 
     return {
       content: {
@@ -122,10 +124,12 @@ export default class OpenApiGenerator {
           // TODO: determine dinamically
           schema: {
             type: "object",
-            properties: Object.keys(instance)
+            properties: body.properties
               .map((property) => ({
-                name: property,
-                type: "string",
+                name: property.name,
+                type: property.type,
+                format: property.format,
+                description: property.description,
               }))
               .reduce(
                 (properties, { name, ...props }) => ({
@@ -134,6 +138,13 @@ export default class OpenApiGenerator {
                 }),
                 {}
               ),
+            example: body.properties.reduce(
+              (examples, { name, ...props }) => ({
+                ...examples,
+                [name]: props.example,
+              }),
+              {}
+            )
             // required: [], TODO: get from metadata
           },
         },

@@ -1,9 +1,10 @@
 import "reflect-metadata";
 import BaseController from "controllers/BaseController";
 import { RouteDefinition } from "controllers/decorators/RouteDefinition";
-import { Router, Request, Response } from "express";
+import { Router, Request, Response, query } from "express";
 import HttpResponse from "infrastructure/helpers/HttpResponse";
 import ControllerAction from "./ControllerAction";
+import queryString from 'query-string';
 
 export default class APIRouter {
   private path: string;
@@ -30,36 +31,36 @@ export default class APIRouter {
 
     routes.forEach((route) => {
       const path = this.sanitize(`${route.path}`);
-
+      Logger.debug(route);
       switch (route.requestMethod) {
         case "get":
           this.router.get(
             path,
-            handler(this.instance[route.actionName], route)
+            handler(this.instance[route.name], route)
           );
           break;
         case "post":
           this.router.post(
             path,
-            handler(this.instance[route.actionName], route)
+            handler(this.instance[route.name], route)
           );
           break;
         case "patch":
           this.router.patch(
             path,
-            handler(this.instance[route.actionName], route)
+            handler(this.instance[route.name], route)
           );
           break;
         case "put":
           this.router.put(
             path,
-            handler(this.instance[route.actionName], route)
+            handler(this.instance[route.name], route)
           );
           break;
         case "delete":
           this.router.delete(
             path,
-            handler(this.instance[route.actionName], route)
+            handler(this.instance[route.name], route)
           );
           break;
         default:
@@ -101,7 +102,7 @@ const handler =
       const params = (route.parameters || []).map(({ in: from, ParameterType: Type }) => {
         switch (from) {
           case "query":
-            return new Type(req.query || {});
+            return new Type(queryString.parseUrl(req.url, { parseBooleans: true, parseNumbers: true }) || {});
           case "cookie":
             return new Type(req.cookies || {});
           case "header":
@@ -118,7 +119,8 @@ const handler =
 
       return res.status(response.status).json(response);
     } catch (e) {
-      const response = HttpResponse.internalError(e.message);
+      Logger.error(e);
+      const response = HttpResponse.internalError(e.message || e.toString());
 
       return res.status(response.status).json(response);
     }
