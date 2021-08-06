@@ -25,6 +25,7 @@
     "@types/glob": "^7.1.4",
     "@types/lusca": "^1.7.1",
     "@types/node": "^16.4.7",
+    "@types/swagger-ui-express": "^4.1.3",
     "@typescript-eslint/eslint-plugin": "^4.28.5",
     "@typescript-eslint/parser": "^4.28.5",
     "eslint": "^7.31.0",
@@ -43,6 +44,7 @@
     "openapi3-ts": "^2.0.1",
     "query-string": "^7.0.1",
     "reflect-metadata": "^0.1.13",
-    "shallow-equal-object": "^1.1.1"
+    "shallow-equal-object": "^1.1.1",
+    "swagger-ui-express": "^4.1.6"
   }
 }

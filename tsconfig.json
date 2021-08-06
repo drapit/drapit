@@ -11,6 +11,7 @@
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
+    "useDefineForClassFields": true,
     "experimentalDecorators": true,
     "outDir": "./dist",
     "baseUrl": "./src",

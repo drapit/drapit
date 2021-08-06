@@ -1,5 +1,5 @@
-import MimeType from "./MimeType";
+import Route from "../routes/Route";
 
-const Xml = MimeType('application/xml');
+const Xml = (): MethodDecorator => Route({ contentTypes: ['application/xml']});
 
 export default Xml;

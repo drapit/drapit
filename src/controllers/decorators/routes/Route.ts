@@ -1,7 +1,7 @@
-import { AllowedHttpMethod, RouteDefinition } from "../RouteDefinition";
+import { RouteDefinition } from "../Types";
 
 // TODO: automate testing
-const Route = (path: string, httpMethod: AllowedHttpMethod): MethodDecorator => {
+const Route = (route: Partial<RouteDefinition>): MethodDecorator => {
   return (target, propertyKey: string | Symbol): void => {
     if (!Reflect.hasMetadata("routes", target.constructor)) {
       Reflect.defineMetadata("routes", [], target.constructor);
@@ -12,16 +12,29 @@ const Route = (path: string, httpMethod: AllowedHttpMethod): MethodDecorator => 
       target.constructor
     ) as Array<RouteDefinition>;
 
+    const index = routes.findIndex((route) => route.name === propertyKey);
 
-    const index = routes.findIndex(route => route.name === propertyKey); 
-    if (index != -1) {
-      routes[index].requestMethod = httpMethod,
-      routes[index].path = path;
-      routes[index].name = propertyKey.toString();
+    if (index !== -1) {
+      routes[index] = {
+        ...routes[index],
+        ...route,
+        parameters: [
+          ...routes[index].parameters || [],
+          ...route.parameters || [],
+        ],
+        responses: [
+          ...routes[index].responses || [],
+          ...route.responses || [],
+        ],
+        contentTypes: [
+          ...routes[index].contentTypes || [],
+          ...route.contentTypes || [],
+        ],
+        name: propertyKey.toString(),
+      };
     } else {
       routes.push({
-        requestMethod: httpMethod,
-        path,
+        ...route,
         name: propertyKey.toString(),
       });
     }

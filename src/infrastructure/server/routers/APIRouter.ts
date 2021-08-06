@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import BaseController from "controllers/BaseController";
-import { RouteDefinition } from "controllers/decorators/RouteDefinition";
+import { RouteDefinition } from "controllers/decorators/Types";
 import { Router, Request, Response, query } from "express";
 import HttpResponse from "infrastructure/helpers/HttpResponse";
 import ControllerAction from "./ControllerAction";

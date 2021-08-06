@@ -11,6 +11,7 @@ import path from "path";
 import glob from "glob";
 import OpenApiGenerator from "infrastructure/server/openapi/OpenApiGenerator";
 import { OpenApiBuilder } from "openapi3-ts";
+import swaggerUi from "swagger-ui-express";
 import * as config from "config";
 
 export default class Server implements ISetup {
@@ -60,10 +61,12 @@ export default class Server implements ISetup {
   private loadVersions(app: Application) {
     const directory = path.join(__dirname, "../../controllers");
 
+    const versions: string[] = [];
     glob.sync(`${directory}/v*`).forEach((directoryPath: string) => {
       if (!fs.lstatSync(path.resolve(directoryPath)).isDirectory()) return;
       const directories = directoryPath.split("/");
       const version = directories[directories.length - 1];
+      versions.push(version);
       const router = Router();
       app.use(`/api/${version}`, router);
 
@@ -77,8 +80,27 @@ export default class Server implements ISetup {
         url: config.maintainer.url,
       });
 
+      documentation.addServer({
+        url: `/api/${version}`,
+        description: 'Current environment'
+      });
+
       this.mountControllers(directoryPath, router, documentation);
     });
+
+    app.use(
+      "/api/docs",
+      swaggerUi.serve,
+      swaggerUi.setup(undefined, {
+        explorer: true,
+        swaggerOptions: {
+          urls: versions.map((version) => ({
+            url: `/api/${version}/docs`,
+            name: `${version} Spec`,
+          })),
+        },
+      })
+    );
   }
 
   private mountControllers(

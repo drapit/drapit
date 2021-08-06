@@ -1,27 +1,15 @@
 import {
-  ParameterPropertyDefinition,
-  ParametersDefinition,
-  ResponsePropertyDefinition,
+  AllowedParameterContainers,
+  PropertyDefinition,
   RouteDefinition,
-} from "../RouteDefinition";
-
-const setParameter = (
-  parameters: ParametersDefinition[] = [],
-  index: number,
-  parameter: ParametersDefinition
-) => {
-  parameters = parameters || [];
-  parameters[index] = parameter;
-
-  return parameters;
-};
+  TypedConstructor,
+} from "../Types";
 
 // TODO: Automate testing
-// TODO: Create enum for parameter types
 const Parameter =
-  (from: "query" | "body" | "path" | "header" | "cookie") =>
+  (from: AllowedParameterContainers) =>
   <T>(
-    ParameterType: { new (...args: any[]): T },
+    ParameterType: TypedConstructor<T>,
     description?: string
   ): ParameterDecorator => {
     return (
@@ -33,44 +21,30 @@ const Parameter =
         Reflect.defineMetadata("routes", [], target.constructor);
       }
 
-      let parameters: ParameterPropertyDefinition[] = [];
+      let keys: string[] = [];
+      let properties: PropertyDefinition[] = [];
 
       if (ParameterType != null) {
-        // TODO: Find a better name.
-        const keys = Object.keys(new ParameterType());
-
-        const properties = Reflect.getMetadata(
-          "properties",
-          ParameterType
-        ) as Array<ResponsePropertyDefinition>;
-
-        parameters = keys.map((key): ParameterPropertyDefinition  => {
-          const property = properties.find((p) => p.name === key);
-
-          if (property != null) {
-            return {
-              name: property.name,
-              required: false, // NOTICE: hard coded for now
-              type: property.type!,
-              format: property.format,
-              description: property.description,
-              example: property.example
-            };
-          } else {
-            return {
-              name: key,
-              required: false, // NOTICE: hard coded for now
-              type: "string",
-            };
-          }
-        });
+        keys = Object.keys(new ParameterType());
+        properties = Reflect.getMetadata("properties", ParameterType);
       }
 
       const parameter = {
         in: from,
         ParameterType: ParameterType,
         description,
-        properties: parameters,
+        properties: keys.map((key) => {
+          const property = properties.find((p) => p.name === key);
+  
+          return {
+            name: key,
+            required: false, // TODO: hard coded for now remember to use the proper value when available
+            type: property?.type || "string",
+            format: property?.format,
+            description: property?.description,
+            example: property?.example,
+          };
+        }),
       };
 
       const routes = Reflect.getMetadata(
@@ -78,18 +52,15 @@ const Parameter =
         target.constructor
       ) as Array<RouteDefinition>;
 
-      const index = routes.findIndex(
-        (route) => route.name === propertyKey
-      );
+      const index = routes.findIndex((route) => route.name === propertyKey);
 
       if (index != -1) {
-        routes[index].parameters = setParameter(
-          routes[index].parameters,
-          parameterIndex,
-          parameter
-        );
+        const parameters = routes[index].parameters || [];
+        parameters[parameterIndex] = parameter;
+        routes[index].parameters = parameters;
       } else {
-        const parameters = setParameter([], parameterIndex, parameter);
+        const parameters = [];
+        parameters[parameterIndex] = parameter;
 
         routes.push({
           parameters: parameters,

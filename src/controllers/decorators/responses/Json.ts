@@ -1,5 +1,5 @@
-import MimeType from "./MimeType";
+import Route from "../routes/Route";
 
-const Json = MimeType('application/json');
+const Json = (): MethodDecorator => Route({ contentTypes: ['application/json']});
 
 export default Json;

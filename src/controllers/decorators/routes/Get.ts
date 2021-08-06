@@ -1,7 +1,6 @@
 import Route from "./Route";
 
-const Get = (path: string): MethodDecorator =>  {
-  return Route(path, 'get')
-};
-
+const Get = (path: string): MethodDecorator =>
+  Route({ path, requestMethod: "get" });
+  
 export default Get;

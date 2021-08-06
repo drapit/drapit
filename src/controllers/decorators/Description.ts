@@ -1,38 +1,21 @@
-import { ParameterPropertyDefinition, RouteDefinition } from "./RouteDefinition";
+import Route from "./routes/Route";
+import Property from "./schemas/Property";
 
 function Description(description: string): PropertyDecorator;
 function Description(description: string): MethodDecorator {
-  return <T>(
+  return (
     target: Object,
     propertyKey: string | symbol,
-    descriptor: TypedPropertyDescriptor<T>
+    descriptor: PropertyDescriptor
   ): void => {
-    const isMethodDecorator = descriptor != null;
+    const isForRoute = descriptor != null;
 
-    const metadata = isMethodDecorator ? "routes" : "properties";
-
-    if (!Reflect.hasMetadata(metadata, target.constructor)) {
-      Reflect.defineMetadata(metadata, [], target.constructor);
+    if (isForRoute) {
+      Route({ description })(target, propertyKey, descriptor);
+      return;
     }
 
-    const properties = Reflect.getMetadata(
-      metadata,
-      target.constructor
-    ) as Array<RouteDefinition | ParameterPropertyDefinition>;
-
-    const index = properties.findIndex((route) => route.name === propertyKey);
-
-    if (index != -1) {
-      properties[index].name = propertyKey.toString();
-      properties[index].description = description;
-    } else {
-      properties.push({
-        name: propertyKey.toString(),
-        description,
-      });
-    }
-
-    Reflect.defineMetadata(metadata, properties, target.constructor);
+    Property({ description })(target, propertyKey);
   };
 }
 

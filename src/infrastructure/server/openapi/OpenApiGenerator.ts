@@ -4,7 +4,7 @@ import {
   ParametersDefinition,
   ResponseDefinition,
   RouteDefinition,
-} from "controllers/decorators/RouteDefinition";
+} from "controllers/decorators/Types";
 import {
   OpenApiBuilder,
   PathItemObject,

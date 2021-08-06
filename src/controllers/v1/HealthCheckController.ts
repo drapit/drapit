@@ -21,7 +21,6 @@ import HttpResponse from "infrastructure/helpers/HttpResponse";
 import BaseController from "controllers/BaseController";
 import Header from "controllers/decorators/parameters/Header";
 import Cookie from "controllers/decorators/parameters/Cookie";
-import Debug from "decorators/Debug";
 
 class DTO<T> {
   [key: string]: unknown;
@@ -72,6 +71,7 @@ export default class HealthCheckController extends BaseController {
   @Get("/")
   @Responds(200)
   @Responds(404)
+  @Xml()
   @Json() // TODO: default to Json and make it configurable
   @Description("This the right explanation!")
   public async check(): Promise<HttpResponse> {
@@ -82,6 +82,8 @@ export default class HealthCheckController extends BaseController {
   @Responds(200, HealthCheckQueryString)
   @Xml()
   @Json() // TODO: default to Json and make it configurable
+  // @Accepts()
+  // @ContentType()
   public async test(
     @Header(HeadersParameters) header: HeadersParameters,
     @Path(PathParameters) pathParams: PathParameters,

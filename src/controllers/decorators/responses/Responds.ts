@@ -1,69 +1,39 @@
-import { ResponsePropertyDefinition, RouteDefinition } from "../RouteDefinition";
+import { PropertyDefinition, TypedConstructor } from "../Types";
+import Route from "../routes/Route";
 
-// TODO: Automate testing
-const Responds = <R>(status: number, ResponseType?: { new (...args: any[]): R } | null, description?: string): MethodDecorator => {
-  return (target, propertyKey: string | Symbol): void => {
-    if (!Reflect.hasMetadata("routes", target.constructor)) {
-      Reflect.defineMetadata("routes", [], target.constructor);
-    }
+const Responds = <R>(
+  status: number,
+  ResponseType?: TypedConstructor<R> | null,
+  description?: string
+): MethodDecorator => {
+  let keys: string[] = [];
+  let properties: PropertyDefinition[] = [];
 
-    const schema: { [key: string]: { type: string, format?: string } } = {};
+  if (ResponseType != null) {
+    keys = Object.keys(new ResponseType());
+    properties = Reflect.getMetadata("properties", ResponseType);
+  }
 
-    if (ResponseType != null) {
-      // TODO: Find a better name.
-      const keys = Object.keys(new ResponseType());
-
-      const properties = Reflect.getMetadata(
-        "properties",
-        ResponseType
-      ) as Array<ResponsePropertyDefinition>;
-
-      for (const key of keys) {
-        const property = properties.find(p => p.name === key);
-
-        if (property != null) {
-          schema[key] = {
-            type: property.type!,
-            format: property.format,
-          };
-        } 
-        else {
-          schema[key] = {
-            type: 'string'
-          };
-        }
-      }      
-    }
-
-    const routes = Reflect.getMetadata(
-      "routes",
-      target.constructor
-    ) as Array<RouteDefinition>;
-
-    const index = routes.findIndex(route => route.name === propertyKey); 
-    if (index != -1) {
-      routes[index].name = propertyKey.toString();
-      routes[index].responses = routes[index].responses || [];
-      routes[index].responses?.push({
+  return Route({
+    responses: [
+      {
         description,
         status,
-        ResponseType: ResponseType,
-        schema,
-      });
-    } else {
-      routes.push({
-        responses: [{
-          description,
-          status,
-          ResponseType: ResponseType,
-          schema,
-        }],
-        name: propertyKey.toString(),
-      });
-    }
+        ResponseType,
+        schema: keys.reduce((schema, key) => {
+          const property = properties.find(({ name }) => name === key);
 
-    Reflect.defineMetadata("routes", routes, target.constructor);
-  };
+          return {
+            ...schema,
+            [key]: {
+              type: property?.type || "string",
+              format: property?.format,
+            },
+          };
+        }, {}),
+      },
+    ],
+  });
 };
 
 export default Responds;
