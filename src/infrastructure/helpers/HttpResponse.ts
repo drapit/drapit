@@ -56,7 +56,7 @@ export default class HttpResponse<T = null> {
     return new HttpResponse(500, null, error);
   }
 
-  private constructor(
+  public constructor(
     status: number,
     data?: T,
     message?: string | null,

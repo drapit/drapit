@@ -5,12 +5,16 @@ import ISetup from "infrastructure/ISetup";
 
 export default class GlobalServices implements ISetup {
   public setup(): void {
-    const services = path.join(__dirname, "../../services");
-    
+    const services = path.join(__dirname, "../../global");
+
     glob.sync(`${services}/*`).forEach((filePath: string) => {
       if (fs.lstatSync(path.resolve(filePath)).isDirectory()) return;
 
-      require(filePath);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const service: any = require(filePath).default; // eslint-disable-line @typescript-eslint/no-var-requires
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (global as any)[service.name] = service;
     });
   }
 }

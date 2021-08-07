@@ -1,6 +1,6 @@
 {
-  "watch": ["src"],
+  "watch": ["src", "index.d.ts", ".env"],
   "ext": "ts,json",
   "ignore": ["src/**/*.spec.ts"],
-  "exec": "NODE_PATH=./src ts-node ./src/app.ts"
+  "exec": "ROOT_DIR=$(pwd) NODE_PATH=./src ts-node -r dotenv/config ./src/app.ts"
 }

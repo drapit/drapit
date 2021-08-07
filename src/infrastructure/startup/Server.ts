@@ -2,14 +2,15 @@ import express, { Response, Request, Router, Application } from "express";
 import cors from "cors";
 import compression from "compression";
 import bodyParser from "body-parser";
+import cookieParser from "cookie-parser";
 import lusca from "lusca";
 import ISetup from "infrastructure/ISetup";
-import APIRouter from "infrastructure/server/routers/APIRouter";
+import AutoRouter from "infrastructure/server/AutoRouter";
 import fs from "fs";
 import path from "path";
 import glob from "glob";
-
-const { API_PAYLOAD_MAX_SIZE, API_PORT } = process.env;
+import swaggerUi from "swagger-ui-express";
+import * as config from "config";
 
 export default class Server implements ISetup {
   public setup(): void {
@@ -22,12 +23,13 @@ export default class Server implements ISetup {
     app.use(
       bodyParser.urlencoded({
         extended: false,
-        limit: API_PAYLOAD_MAX_SIZE,
+        limit: config.api.payloadSize,
       })
     );
+    app.use(cookieParser());
     app.use(
       bodyParser.json({
-        limit: API_PAYLOAD_MAX_SIZE,
+        limit: config.api.payloadSize,
       })
     );
     app.use(
@@ -42,37 +44,66 @@ export default class Server implements ISetup {
 
     this.loadVersions(app);
 
+    // TODO: Make this redirect configurable
     app.get("/", (_: Request, res: Response) => {
-      res.redirect("/api/v1");
+      res.redirect("/api/docs");
     });
 
-    app.listen(API_PORT, () => {
-      Logger.info(`Example app listening at http://localhost:${API_PORT}`);
+    app.listen(config.api.port, () => {
+      Logger.info(
+        `Example app listening at http://localhost:${config.api.port}`
+      );
     });
   }
 
   private loadVersions(app: Application) {
-    const directory = path.join(__dirname, "../../controllers");
+    const root = config.api.rootDir;  
+    const directory = path.join(root, "src/controllers");
+    const versions: string[] = [];
 
     glob.sync(`${directory}/v*`).forEach((directoryPath: string) => {
       if (!fs.lstatSync(path.resolve(directoryPath)).isDirectory()) return;
-      const directories = directoryPath.split("/");
-      const version = directories[directories.length - 1];
       const router = Router();
+      const version = this.getVersion(directoryPath);
+
+      versions.push(version);
       app.use(`/api/${version}`, router);
 
-      this.mountControllers(directoryPath, router);
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      const docs = require(`${root}/.swagger/swagger.${version}.json`);
+      
+      router.get("/docs", (_: Request, res: Response) => {
+        return res.status(200).json(docs);
+      });
+
+      fs.readdirSync(directoryPath).forEach((fileName: string) => {
+        const fullPath = `${directoryPath}/${fileName}`;
+  
+        if (fs.lstatSync(fullPath).isDirectory()) return;
+  
+        new AutoRouter(this.import(fullPath), router).route();
+      });
     });
+
+    app.use(
+      "/api/docs",
+      swaggerUi.serve,
+      swaggerUi.setup(undefined, {
+        explorer: true,
+        swaggerOptions: {
+          urls: versions.map((version) => ({
+            url: `/api/${version}/docs`,
+            name: `${version} Specification`,
+          })),
+        },
+      })
+    );
   }
 
-  private mountControllers(directoryPath: string, api: Router): void {
-    fs.readdirSync(directoryPath).forEach((fileName: string) => {
-      const fullPath = `${directoryPath}/${fileName}`;
+  private getVersion(directoryPath: string): string {
+    const directories = directoryPath.split("/");
 
-      if (fs.lstatSync(fullPath).isDirectory()) return;
-
-      new APIRouter(this.import(fullPath), api).route();
-    });
+    return directories[directories.length - 1];
   }
 
   private import(path: string) {
