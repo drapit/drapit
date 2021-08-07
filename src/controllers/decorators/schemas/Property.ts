@@ -17,7 +17,7 @@ const Property = (property: Partial<PropertyDefinition>): PropertyDecorator => {
       properties[index] = {
         ...properties[index],
         ...property,
-        type: property.type || propertyKey === 'password' ? 'password' : undefined,
+        type: property.type || (propertyKey === 'password' ? 'password' : undefined),
         name: propertyKey.toString()
       };
     } else {

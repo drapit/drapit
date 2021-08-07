@@ -1,8 +1,23 @@
-export type AllowedHttpMethods = "get" | "post" | "patch" | "put" | "delete";
-export type AllowedParameterContainers = "query" | "body" | "path" | "header" | "cookie";
+import MIMETypes from "application/enums/MIMETypes";
 
-export type TypedConstructor<T> = { new (...args: any[]): T };
-export type Constructor = { new (...args: any[]): any };
+export enum HttpMethods {
+  get = "get",
+  post = "post",
+  patch = "patch",
+  put = "put",
+  delete = "delete",
+}
+
+export enum ParameterContainers {
+  query = "query",
+  body = "body",
+  path = "path",
+  header = "header",
+  cookie = "cookie",
+}
+
+export type Args<A extends any> = Array<A>;
+export type Constructor<T = any> = { new <A>(...args: Args<A>): T };
 
 export type PropertyDefinition = {
   name: string;
@@ -14,7 +29,7 @@ export type PropertyDefinition = {
 };
 
 export type ParametersDefinition = {
-  in: AllowedParameterContainers;
+  in: ParameterContainers;
   ParameterType: Constructor;
   description?: string;
   properties: PropertyDefinition[];
@@ -22,17 +37,21 @@ export type ParametersDefinition = {
 
 export type RouteDefinition = {
   path?: string;
-  requestMethod?: AllowedHttpMethods;
+  requestMethod?: HttpMethods;
   name: string;
   parameters?: ParametersDefinition[];
   responses?: ResponseDefinition[];
-  contentTypes?: string[];
+  contentTypes?: MIMETypes[];
   description?: string;
+};
+
+export type ResponseSchema = {
+  [key: string]: { type: string; format?: string };
 };
 
 export type ResponseDefinition = {
   description?: string;
   status: number;
   ResponseType?: Constructor | null;
-  schema?: { [key: string]: { type: string; format?: string } };
+  schema?: ResponseSchema;
 };

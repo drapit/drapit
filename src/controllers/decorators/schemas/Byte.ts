@@ -1,5 +1,5 @@
 import Type from "./Type";
 
-const isByte = Type('string', 'byte');
+const IsByte = Type('string', 'byte');
 
-export default isByte;
+export default IsByte;

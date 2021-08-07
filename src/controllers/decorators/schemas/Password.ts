@@ -1,5 +1,5 @@
 import Type from "./Type";
 
-const isPassword = Type('password');
+const IsPassword = Type('password');
 
-export default isPassword;
+export default IsPassword;

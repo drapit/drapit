@@ -1,5 +1,5 @@
 import Type from "./Type";
 
-const isBinary = Type('string', 'binary');
+const IsBinary = Type('string', 'binary');
 
-export default isBinary;
+export default IsBinary;

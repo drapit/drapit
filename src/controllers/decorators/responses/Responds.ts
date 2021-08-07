@@ -1,9 +1,9 @@
-import { PropertyDefinition, TypedConstructor } from "../Types";
+import { PropertyDefinition, Constructor } from "../Types";
 import Route from "../routes/Route";
 
 const Responds = <R>(
   status: number,
-  ResponseType?: TypedConstructor<R> | null,
+  ResponseType?: Constructor<R> | null,
   description?: string
 ): MethodDecorator => {
   let keys: string[] = [];

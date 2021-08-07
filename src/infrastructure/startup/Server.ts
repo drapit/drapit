@@ -5,12 +5,10 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import lusca from "lusca";
 import ISetup from "infrastructure/ISetup";
-import APIRouter from "infrastructure/server/routers/APIRouter";
+import AutoRouter from "infrastructure/server/AutoRouter";
 import fs from "fs";
 import path from "path";
 import glob from "glob";
-import OpenApiGenerator from "infrastructure/server/openapi/OpenApiGenerator";
-import { OpenApiBuilder } from "openapi3-ts";
 import swaggerUi from "swagger-ui-express";
 import * as config from "config";
 
@@ -48,7 +46,7 @@ export default class Server implements ISetup {
 
     // TODO: Make this redirect configurable
     app.get("/", (_: Request, res: Response) => {
-      res.redirect("/api/v1");
+      res.redirect("/api/docs");
     });
 
     app.listen(config.api.port, () => {
@@ -59,33 +57,32 @@ export default class Server implements ISetup {
   }
 
   private loadVersions(app: Application) {
-    const directory = path.join(__dirname, "../../controllers");
-
+    const root = config.api.rootDir;  
+    const directory = path.join(root, "src/controllers");
     const versions: string[] = [];
+
     glob.sync(`${directory}/v*`).forEach((directoryPath: string) => {
       if (!fs.lstatSync(path.resolve(directoryPath)).isDirectory()) return;
-      const directories = directoryPath.split("/");
-      const version = directories[directories.length - 1];
-      versions.push(version);
       const router = Router();
+      const version = this.getVersion(directoryPath);
+
+      versions.push(version);
       app.use(`/api/${version}`, router);
 
-      // TODO: add server info
-      const documentation = new OpenApiBuilder();
-      documentation.addTitle(config.api.name);
-      documentation.addVersion(version);
-      documentation.addContact({
-        name: config.maintainer.name,
-        email: config.maintainer.email,
-        url: config.maintainer.url,
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      const docs = require(`${root}/.swagger/swagger.${version}.json`);
+      
+      router.get("/docs", (_: Request, res: Response) => {
+        return res.status(200).json(docs);
       });
 
-      documentation.addServer({
-        url: `/api/${version}`,
-        description: 'Current environment'
+      fs.readdirSync(directoryPath).forEach((fileName: string) => {
+        const fullPath = `${directoryPath}/${fileName}`;
+  
+        if (fs.lstatSync(fullPath).isDirectory()) return;
+  
+        new AutoRouter(this.import(fullPath), router).route();
       });
-
-      this.mountControllers(directoryPath, router, documentation);
     });
 
     app.use(
@@ -96,30 +93,17 @@ export default class Server implements ISetup {
         swaggerOptions: {
           urls: versions.map((version) => ({
             url: `/api/${version}/docs`,
-            name: `${version} Spec`,
+            name: `${version} Specification`,
           })),
         },
       })
     );
   }
 
-  private mountControllers(
-    directoryPath: string,
-    api: Router,
-    documentation: OpenApiBuilder
-  ): void {
-    fs.readdirSync(directoryPath).forEach((fileName: string) => {
-      const fullPath = `${directoryPath}/${fileName}`;
+  private getVersion(directoryPath: string): string {
+    const directories = directoryPath.split("/");
 
-      if (fs.lstatSync(fullPath).isDirectory()) return;
-
-      new APIRouter(this.import(fullPath), api).route();
-      new OpenApiGenerator(this.import(fullPath), documentation).generate();
-
-      api.get("/docs", (_: Request, res: Response) => {
-        return res.status(200).json(documentation.getSpec());
-      });
-    });
+    return directories[directories.length - 1];
   }
 
   private import(path: string) {

@@ -1,5 +1,5 @@
 import Type from "./Type";
 
-const isString = Type('string');
+const IsString = Type('string');
 
-export default isString;
+export default IsString;

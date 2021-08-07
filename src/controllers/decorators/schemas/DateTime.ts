@@ -1,5 +1,5 @@
 import Type from "./Type";
 
-const isDateTime = Type('date-time');
+const IsDateTime = Type('date-time');
 
-export default isDateTime;
+export default IsDateTime;

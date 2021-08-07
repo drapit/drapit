@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "start": "npm run compile && npm run serve",
+    "start": "ROOT_DIR=$(pwd) npm run compile && npm run serve",
     "watch": "nodemon",
     "build": "npm run compile && npm run lint",
     "serve": "NODE_PATH=dist/ node -r dotenv/config dist/app.js",

@@ -1,5 +1,5 @@
 import Type from "./Type";
 
-const isBoolean = Type('boolean');		
+const IsBoolean = Type('boolean');		
 
-export default isBoolean;
+export default IsBoolean;

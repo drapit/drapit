@@ -1,7 +1,8 @@
 import "reflect-metadata";
 import BaseController from "controllers/BaseController";
 import {
-  ParametersDefinition,
+  HttpMethods,
+  ParameterContainers,
   ResponseDefinition,
   RouteDefinition,
 } from "controllers/decorators/Types";
@@ -11,7 +12,10 @@ import {
   ParameterObject,
   RequestBodyObject,
   ResponseObject,
+  SchemaObject,
 } from "openapi3-ts";
+import MIMETypes from "application/enums/MIMETypes";
+import RouteHeper from "infrastructure/helpers/Route";
 
 export default class OpenApiGenerator {
   private path: string;
@@ -34,7 +38,7 @@ export default class OpenApiGenerator {
     );
 
     for (const route of routes) {
-      const path = this.sanitize(this.path) + this.sanitize(`${route.path}`);
+      const path = RouteHeper.sanitize(this.path) + RouteHeper.sanitize(`${route.path}`);
       const pathItems: PathItemObject = {
         [`${route.requestMethod}`]: {
           description: route.description,
@@ -48,131 +52,126 @@ export default class OpenApiGenerator {
     }
   }
 
-  // TODO: add response wrapper
   private generateResponses(route: RouteDefinition): ResponseObject {
-    route.contentTypes = route.contentTypes || [
-      "application/json",
-      "application/xml",
-    ];
-    return route.responses?.reduce((responses, resposeForStatus) => {
-      const response = {
-        description: resposeForStatus.description || `${resposeForStatus.status}`,
-        content: route.contentTypes?.reduce((schemas, contentType) => {
-          return {
-            ...schemas,
-            [contentType]: !resposeForStatus.ResponseType ? {} : {
-              schema: {
-                type: "object",
-                properties: resposeForStatus.schema,
-                // required: [], TODO: get from metadata
-              },
-            },
-          };
-        }, {}),
-      };
+    const contentTypes = route.contentTypes || [MIMETypes.json, MIMETypes.xml];
 
-      return { ...responses, [resposeForStatus.status]: response };
-    }, {}) as ResponseObject ;
+    return route.responses?.reduce(
+      (responses, response) => ({
+        ...responses,
+        [response.status]: {
+          description: response.description || response.status.toString(),
+          content: contentTypes.reduce(
+            (schemas, contentType) => ({
+              ...schemas,
+              [contentType]: {
+                schema: this.generateResponseSchema(response),
+              },
+            }),
+            {}
+          ),
+        },
+      }),
+      {}
+    ) as ResponseObject;
+  }
+
+  private generateResponseSchema(response: ResponseDefinition): SchemaObject {
+    if (response.schema == null) return {};
+
+    const successfull = response.status >= 200 && response.status < 400;
+
+    // TODO: Find a way to not hard code the response wrapper.
+    // TODO: Add examples
+    return {
+      schema: {
+        type: "object",
+        properties: {
+          status: {
+            type: "number",
+          },
+          message: {
+            type: "string",
+          },
+          data: successfull
+            ? {
+                type: "object",
+                properties: response.schema,
+              }
+            : undefined,
+          error: !successfull
+            ? {
+                type: "string",
+              }
+            : undefined,
+          success: {
+            type: "boolean",
+          },
+        },
+      },
+    };
   }
 
   private generateParameters(route: RouteDefinition): ParameterObject[] {
     if (!route.parameters?.length) return [];
 
-    // TODO: obtain metadata from decorators
     return route.parameters
-      ?.filter((parameter) => parameter.in !== "body")
-      .map((parameter) => {
-        return parameter.properties.map((property) => ({
-          in: parameter.in,
-          name: property.name,
-          required: property.required,
-          description: property.description,
-          schema: {
-            type: property.type,
-            format: property.format,
-          },
-          example: property.example
-        }));
-      })
-      .reduce(
-        (parameters, arrayOfParameters) => [
+      .filter((parameter) => parameter.in !== ParameterContainers.body)
+      .reduce<ParameterObject[]>((parameters, container) => {
+        return [
           ...parameters,
-          ...arrayOfParameters,
-        ],
-        []
-      ) as ParameterObject[];
+          ...container.properties?.map(
+            (property) =>
+              ({
+                in: container.in.toString(),
+                name: property.name,
+                required: property.required,
+                description: property.description,
+                schema: {
+                  type: property.type,
+                  format: property.format,
+                },
+                example: property.example,
+              } as ParameterObject)
+          ),
+        ];
+      }, []);
   }
-
-  //   export interface RequestBodyObject extends ISpecificationExtension {
-  //     description?: string;
-  //     content: ContentObject;
-  //     required?: boolean;
-  // }
 
   private generateRequestBody(
     route: RouteDefinition
   ): RequestBodyObject | undefined {
-    if (["get", "delete"].includes(route.requestMethod!)) return;
+    if ([HttpMethods.get, HttpMethods.delete].includes(route.requestMethod!))
+      return;
     if (!route.parameters?.length) return;
-    const body = route.parameters?.find((parameter) => parameter.in === "body");
+
+    const body = route.parameters?.find(
+      ({ in: from }) => from === ParameterContainers.body
+    );
     if (body == null) return;
-    Logger.debug(JSON.stringify(route, null, 2), body);
 
     return {
+      description: body.description,
       content: {
-        "application/json": {
-          // TODO: determine dinamically
+        [MIMETypes.json]: {
           schema: {
             type: "object",
-            properties: body.properties
-              .map((property) => ({
-                name: property.name,
-                type: property.type,
-                format: property.format,
-                description: property.description,
-              }))
-              .reduce(
-                (properties, { name, ...props }) => ({
-                  ...properties,
-                  [name]: props,
-                }),
-                {}
-              ),
-            example: body.properties.reduce(
-              (examples, { name, ...props }) => ({
-                ...examples,
-                [name]: props.example,
+            properties: body.properties.reduce(
+              (properties, { name, ...metadata }) => ({
+                ...properties,
+                [name]: metadata,
               }),
               {}
-            )
-            // required: [], TODO: get from metadata
+            ),
+            example: body.properties.reduce(
+              (examples, { name, example }) => ({
+                ...examples,
+                [name]: example,
+              }),
+              {}
+            ),
           },
         },
       },
-    } as RequestBodyObject;
-  }
-
-  // TODO: make this logic reusable
-  private sanitize(path = "") {
-    path = this.addBeginningSlash(path);
-    path = this.removeTrailingSlash(path);
-
-    return path;
-  }
-
-  private removeTrailingSlash(value: string): string {
-    if (value.lastIndexOf("/") === value.length - 1) {
-      return value.substring(0, value.length - 1);
-    }
-
-    return value;
-  }
-
-  private addBeginningSlash(value: string): string {
-    if (value[0] !== "/") {
-      return `/${value}`;
-    }
-
-    return value;
+    };
   }
 }

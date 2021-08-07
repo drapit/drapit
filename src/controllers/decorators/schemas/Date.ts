@@ -1,5 +1,5 @@
 import Type from "./Type";
 
-const isDate = Type('date');
+const IsDate = Type('date');
 
-export default isDate;
+export default IsDate;

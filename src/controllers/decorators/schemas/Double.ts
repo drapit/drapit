@@ -1,5 +1,5 @@
 import Type from "./Type";
 
-const isDouble = Type('number', 'double');		
+const IsDouble = Type('number', 'double');		
 
-export default isDouble;
+export default IsDouble;

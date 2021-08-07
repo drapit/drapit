@@ -1,15 +1,15 @@
 import {
-  AllowedParameterContainers,
+  ParameterContainers,
+  Constructor,
   PropertyDefinition,
   RouteDefinition,
-  TypedConstructor,
 } from "../Types";
 
 // TODO: Automate testing
 const Parameter =
-  (from: AllowedParameterContainers) =>
+  (from: ParameterContainers) =>
   <T>(
-    ParameterType: TypedConstructor<T>,
+    ParameterType: Constructor<T>,
     description?: string
   ): ParameterDecorator => {
     return (
