@@ -1,7 +1,7 @@
 
-# Drapi
+# Drapit
 
-**WIP**
+**WIP: No released yet**
 
 Are you tired of having to bootstrap projects from scratch? Most of the time Rest APIs have similar needs, Drapit is a template that have most common tools needed to build REST APIs.
 
