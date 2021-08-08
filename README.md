@@ -3,7 +3,7 @@
 
 **WIP**
 
-I just got tired of having to bootstrap projects from scratch. Most of the time Rest APIs have similar needs, so I decided to create a template that have most common tools needed in a REST API.
+Are you tired of having to bootstrap projects from scratch. Most of the time Rest APIs have similar needs, Drapit is a template that have most common tools needed to build REST APIs.
 
 ## Architecture
 
