@@ -1,5 +1,5 @@
-import Route from "./routes/Route";
-import Property from "./schemas/Property";
+import Route from "./Route";
+import Property from "./Property";
 
 function Description(description: string): PropertyDecorator;
 function Description(description: string): MethodDecorator {
@@ -15,7 +15,7 @@ function Description(description: string): MethodDecorator {
       return;
     }
 
-    Property({ description })(target, propertyKey);
+    Property({ description })()(target, propertyKey);
   };
 }
 

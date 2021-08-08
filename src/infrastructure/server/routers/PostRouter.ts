@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { RouteDefinition } from "controllers/decorators/Types";
+import { RouteDefinition } from "controllers/decorators";
 import RouteHelper from "infrastructure/helpers/Route";
 import PathRouter from "./PathRouter";
 import IRoute from "./IRoute";

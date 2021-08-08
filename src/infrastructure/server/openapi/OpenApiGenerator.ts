@@ -5,7 +5,8 @@ import {
   ParameterContainers,
   ResponseDefinition,
   RouteDefinition,
-} from "controllers/decorators/Types";
+  TagDefinition,
+} from "controllers/decorators";
 import {
   OpenApiBuilder,
   PathItemObject,
@@ -32,15 +33,18 @@ export default class OpenApiGenerator {
   }
 
   public generate(): void {
+    const tags: TagDefinition[] = Reflect.getMetadata("tags", this.Controller);
     const routes: Array<RouteDefinition> = Reflect.getMetadata(
       "routes",
       this.Controller
     );
 
     for (const route of routes) {
-      const path = RouteHeper.sanitize(this.path) + RouteHeper.sanitize(`${route.path}`);
+      const path =
+        RouteHeper.sanitize(this.path) + RouteHeper.sanitize(`${route.path}`);
       const pathItems: PathItemObject = {
         [`${route.requestMethod}`]: {
+          tags: tags.map((t) => t.name),
           description: route.description,
           parameters: this.generateParameters(route),
           requestBody: this.generateRequestBody(route),
@@ -63,9 +67,7 @@ export default class OpenApiGenerator {
           content: contentTypes.reduce(
             (schemas, contentType) => ({
               ...schemas,
-              [contentType]: {
-                schema: this.generateResponseSchema(response),
-              },
+              [contentType]: this.generateResponseSchema(response),
             }),
             {}
           ),
@@ -78,7 +80,7 @@ export default class OpenApiGenerator {
   private generateResponseSchema(response: ResponseDefinition): SchemaObject {
     if (response.schema == null) return {};
 
-    const successfull = response.status >= 200 && response.status < 400;
+    const successful = response.status >= 200 && response.status < 400;
 
     // TODO: Find a way to not hard code the response wrapper.
     // TODO: Add examples
@@ -92,13 +94,22 @@ export default class OpenApiGenerator {
           message: {
             type: "string",
           },
-          data: successfull
+          data: successful
             ? {
                 type: "object",
-                properties: response.schema,
+                properties: Object.keys(response.schema).reduce(
+                  (properties, key) => ({
+                    ...properties,
+                    [key]: {
+                      ...(response.schema || {})[key],
+                      example: undefined,
+                    },
+                  }),
+                  {}
+                ),
               }
             : undefined,
-          error: !successfull
+          error: !successful
             ? {
                 type: "string",
               }
@@ -106,6 +117,21 @@ export default class OpenApiGenerator {
           success: {
             type: "boolean",
           },
+        },
+        example: {
+          status: response.status,
+          message: successful ? "some success message" : undefined,
+          data: successful
+            ? Object.keys(response.schema).reduce(
+                (examples, key) => ({
+                  ...examples,
+                  [key]: (response.schema || {})[key].example,
+                }),
+                {}
+              )
+            : undefined,
+          error: !successful ? "some error message" : undefined,
+          success: successful,
         },
       },
     };
