@@ -166,8 +166,10 @@ export default class OpenApiGenerator {
   private generateRequestBody(
     route: RouteDefinition
   ): RequestBodyObject | undefined {
-    if ([HttpMethods.get, HttpMethods.delete].includes(route.requestMethod!))
-      return;
+    const { requestMethod } = route;
+    const notAllowedHttpMethods = [HttpMethods.get, HttpMethods.delete];
+    if (requestMethod == null) return;
+    if (notAllowedHttpMethods.includes(requestMethod)) return;
     if (!route.parameters?.length) return;
 
     const body = route.parameters?.find(

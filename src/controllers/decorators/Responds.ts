@@ -12,9 +12,12 @@ const Responds = <R>(
   if (ResponseType != null) {
     keys = Object.keys(new ResponseType());
     properties = Reflect.getMetadata("properties", ResponseType);
-    description = description || Reflect.getMetadata("description", ResponseType);
+    const resourceDescription = Reflect.getMetadata(
+      "description",
+      ResponseType
+    );
+    description = description || resourceDescription;
   }
-
 
   return Route({
     responses: [
@@ -31,7 +34,7 @@ const Responds = <R>(
               type: property?.type || "string",
               format: property?.format,
               example: property?.example,
-              description: property?.description
+              description: property?.description,
             },
           };
         }, {}),

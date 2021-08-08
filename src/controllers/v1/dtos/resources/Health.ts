@@ -10,7 +10,6 @@ export default class Health {
   public timestamp?: number;
 
   public constructor(params: Partial<Health> = {}) {
-
     this.uptime = params.uptime;
     this.timestamp = params.timestamp;
   }
