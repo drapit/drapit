@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { Constructor, RouteDefinition } from "controllers/decorators/Types";
+import { Constructor, RouteDefinition } from "controllers/decorators";
 import { Router } from "express";
 import IRoute from "./IRoute";
 

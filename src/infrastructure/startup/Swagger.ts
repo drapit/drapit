@@ -5,6 +5,7 @@ import glob from "glob";
 import OpenApiGenerator from "infrastructure/server/openapi/OpenApiGenerator";
 import { OpenApiBuilder } from "openapi3-ts";
 import * as config from "config";
+import { TagDefinition } from "controllers/decorators/Definitions";
 
 export default class Swagger implements ISetup {
   public setup(): void {
@@ -36,6 +37,11 @@ export default class Swagger implements ISetup {
 
         // eslint-disable-next-line @typescript-eslint/no-var-requires
         const Controller = require(fullPath).default;
+        const tags: TagDefinition[] = Reflect.getMetadata("tags", Controller);
+
+        for (const tag of tags) {
+          documentation.addTag(tag);
+        }
 
         new OpenApiGenerator(Controller, documentation).generate();
 

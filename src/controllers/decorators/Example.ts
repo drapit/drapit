@@ -1,4 +1,4 @@
-import Property from "./schemas/Property";
+import Property from "./Property";
 
 const Example = (example: string | number | boolean): PropertyDecorator =>
   Property({ example });

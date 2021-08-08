@@ -6,18 +6,26 @@ import {
   Responds,
   Xml,
   Description,
+  Tag,
 } from "controllers/decorators";
 import HttpResponse from "infrastructure/helpers/HttpResponse";
 import BaseController from "controllers/BaseController";
+import Health from "./dtos/resources/Health";
 
+@Tag("build-in")
 @Controller("/health-check")
 export default class HealthCheckController extends BaseController {
   @Get("/")
-  @Responds(200)
+  @Responds(200, Health)
   @Xml()
   @Json() // TODO: default to Json and make it configurable
-  @Description("This the right explanation!")
-  public async check( ): Promise<HttpResponse> {
-    return HttpResponse.ok(null, "Everything alright!");
+  @Description("Endpoint to check API health")
+  public async check(): Promise<HttpResponse<Health>> {
+    const healthCheck = new Health({
+      uptime: process.uptime(),
+      timestamp: Date.now(),
+    });
+
+    return HttpResponse.ok(healthCheck, "Everything alright!");
   }
 }
