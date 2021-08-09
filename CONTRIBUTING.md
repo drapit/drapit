@@ -1,46 +1,224 @@
+# Contributing to Drapit
 
-# Drapi
+We would love for you to contribute to Drapit and help make it even better than it is today!
+As a contributor, here are the guidelines we would like you to follow:
 
-**WIP**
+ - [Question or Problem?](#question)
+ - [Issues and Bugs](#issue)
+ - [Feature Requests](#feature)
+ - [Submission Guidelines](#submit)
+ - [Commit Message Format](#commit)
 
-Are you tired of having to bootstrap projects from scratch. Most of the time Rest APIs have similar needs, Drapit is a template that have most common tools needed to build REST APIs.
+## <a name="question"></a> Got a Question or Problem?
 
-## Architecture
+There are two ways how you can have your question answered:
 
-This template is built using DDD concepts, as well as Onion Architecture and Hexagonal Architecture.
+* You can [start a discussion](#start-a-discussion). 
+* You can [submit an issue](#submit-issue).
 
-## Features
+## <a name="issue"></a> Found a security vulnerability?
 
-| Feature | Description | Implemented? |
-|:--|:--|:--|
-| API Versioning | Easily create controllers that respond to different versions (`/api/v1`, `/api/v2`...) of your public Rest API | Yes |
-| Decorator Routing | Use decorators such as `@Controller('/people')`, `@Get('/')`, `@Get('/:id')`, `@Post('/')`, to route your endpoints | Yes |
-| Decorator Swagger Documentation | @TODO | In Progress |
-| Decorator Params Validation | @TODO | |
-| Auto Generate Rest API Tests | @TODO | |
-| Health Check Endpoint | @TODO | Yes |
-| JWT Authentication | With Password, Client ID/Secrect and API_KEY support |  |
-| Session Token Authentication | With Password, Client ID/Secrect and API_KEY support | |
-| Websockets | @TODO | |
-| Decorator Dependency Injection | @TODO | |
-| Feature Toggling | @TODO | |
-| Event/Listeners | @TODO | In Progress |
-| File Uploading | @TODO | |
-| History Recorder/Audit | @TODO | |
-| Code Generation | @TODO | |
-| Worker Queues | @TODO | |
-| Locale Support | @TODO | |
-| Auto Generate PlantUML for Domain Model | @TODO | |
-| Multi Logger | User same interface (`Logger.info(...)`, `Logger.verbose(...)`, `Logger.error(...)`, etc) to log to multiple log aggregation providers and the console. | Yes |
- 
-## Tech Stack
+If you find a security vulnerability or something that should be discussed personally,
+please contact me within my email [me@modestofiguereo.com](mailto:me@modestofiguereo.com).
 
-| Tool | Description |
-|--|--|
-| [Node.js](https://nodejs.org/) | Development platform |
-| [Typecript](https://www.typescriptlang.org/) | Programing language |
-| [Express](https://expressjs.com/) | Web server |
-| [ts-node](https://typestrong.org/ts-node/) | Development environment runner |
-| [Nodemon](https://nodemon.io/) | Changes watcher |
-| [Eslint](https://eslint.org/) | Code style enforcer |https://github.com/metadevpro/openapi3-ts
-| [openapi3-ts](https://github.com/metadevpro/openapi3-ts) | OpenAPI/Swagger Spec Generator |
+## <a name="issue"></a> Found a Bug?
+
+If you find a bug in the source code, you can help us by [submitting an issue](#submit-issue) to our
+[GitHub Repository](https://github.com/drapit/drapit).
+Even better, you can submit a [Pull Request](#submit-pr) with a fix.
+
+## <a name="feature"></a> Missing a Feature?
+
+You can *request* a new feature by [submitting an issue](#submit-issue) to our GitHub
+Repository. If you would like to *implement* a new feature, please submit an issue with
+a proposal for your work first, to be sure that we can use it.
+Please consider what kind of change it is:
+
+* For a **Major Feature**, first start a new discussion in the [Ideas category](https://github.com/drapit/drapit/discussions/categories/ideas) and outline your proposal so that all implications can be considered. This will also allow us to better coordinate our efforts, prevent duplication of work,
+and help you to craft the change so that it is successfully accepted into the project.
+* **Small Features** can be crafted and directly submitted as a [Pull Request](#submit-pr) or as [Feature request issue](#submit-issue).
+
+## <a name="submit"></a> Submission Guidelines
+
+### <a name="start-a-discussion"></a> Starting discussions
+
+Before you a [new discussion](https://github.com/drapit/drapit/discussions), please search to see whether someone else started a discussion with the same topic.
+
+Also always be kind and cordial towards other members of the community in your comments. 
+
+### <a name="submit-issue"></a> Submitting an Issue
+
+Before you submit an issue, please search the issue tracker,
+maybe an issue for your problem already exists and the discussion might inform you of workarounds readily available.
+
+We want to fix all the issues as soon as possible, but before fixing a bug we need to reproduce and confirm it.
+ In order to reproduce bugs we ask you to provide a minimal code snippet that shows a reproduction of the problem.
+
+You can file new issues by filling out our [new issue form](https://github.com/drapit/drapit/issues/new).
+
+### <a name="submit-pr"></a> Submitting a Pull Request (PR)
+Before you submit your Pull Request (PR) consider the following guidelines:
+
+* Search [GitHub](https://github.com/drapit/drapit/pulls) for an open or closed PR
+  that relates to your submission. You don't want to duplicate effort.
+* Make your changes in a new git branch:
+
+     ```shell
+     git checkout -b my-fix-branch main
+     ```
+
+* Create your patch, **including appropriate test cases**. Without tests your PR will not be accepted.
+* Run the full Drapit test suite, as described in the [developer documentation](DEVELOPER.md) (@TODO), and ensure that all tests pass.
+* Commit your changes using a descriptive commit message that follows our [commit message conventions](#commit). Adherence to these conventions is necessary because release notes are automatically generated from these messages.
+
+     ```shell
+     git commit -a
+     ```
+    Note: the optional commit -a command line option will automatically "add" and "rm" edited files.
+
+* Push your branch to GitHub:
+
+    ```shell
+    git push origin my-fix-branch
+    ```
+
+* In GitHub, send a pull request to `drapit:main`.
+* If we suggest changes then:
+  * Make the required updates.
+  * Re-run the Drapit test suites to ensure tests are still passing.
+  * Rebase your branch and force push to your GitHub repository (this will update your Pull Request):
+
+    ```shell
+    git rebase main -i
+    git push -f
+    ```
+
+That's it! Thank you for your contribution!
+
+#### After your pull request is merged
+
+After your pull request is merged, you can safely delete your branch and pull the changes
+from the main (upstream) repository:
+
+* Delete the remote branch on GitHub either through the GitHub web UI or your local shell as follows:
+
+    ```shell
+    git push origin --delete my-fix-branch
+    ```
+
+* Check out the main branch:
+
+    ```shell
+    git checkout main -f
+    ```
+
+* Delete the local branch:
+
+    ```shell
+    git branch -D my-fix-branch
+    ```
+
+* Update your main with the latest upstream version:
+
+    ```shell
+    git pull --ff upstream main
+    ```
+
+
+## <a name="commit"></a> Commit Message Guidelines
+
+We have very precise rules over how our git commit messages can be formatted.  This leads to **more
+readable messages** that are easy to follow when looking through the **project history**.  But also,
+we use the git commit messages to **generate changelog**.
+
+### Commit Message Format
+Each commit message consists of a **header**, a **body** and a **footer**.  The header has a special
+format that includes a **type** and a **subject**:
+
+```
+<type>: <subject>
+<BLANK LINE>
+<body>
+<BLANK LINE>
+<footer>
+```
+
+Any line of the commit message cannot be longer 100 characters! This allows the message to be easier
+to read on GitHub as well as in various git tools.
+
+### Revert
+If the commit reverts a previous commit, it should begin with `revert: `, followed by the header of
+the reverted commit. In the body it should say: `This reverts commit <hash>.`, where the hash is
+the SHA of the commit being reverted.
+
+### Type
+Must be one of the following:
+
+* **feature**: A new feature
+* **fix**: A bug fix
+* **docs**: Documentation only changes
+* **style**: Changes that do not affect the meaning of the code (white-space, formatting, missing semi-colons, etc)
+* **refactor**: A code change that neither fixes a bug nor adds a feature
+* **perf**: A code change that improves performance
+* **test**: Adding missing tests or correcting existing tests
+* **build**: Changes that affect the build system, CI configuration or external dependencies
+* **chore**: Other changes that don't modify `src` or `test` files
+
+### Subject
+The subject contains succinct description of the change:
+
+* use the imperative, present tense: "change" not "changed" nor "changes"
+* don't capitalize first letter
+* no dot (.) at the end
+
+### Body
+Just as in the **subject**, use the imperative, present tense: "change" not "changed" nor "changes".
+The body should include the motivation for the change and contrast this with previous behavior.
+
+### Footer
+The footer should contain any information about **Breaking Changes** and is also the place to
+reference GitHub issues that this commit **Closes**.
+
+**Breaking Changes** should start with the word `BREAKING CHANGE:` with a space or two newlines.
+The rest of the commit message is then used for this.
+
+### Examples
+Fix and close issue:
+```
+fix: resolve issues uppercase column names
+
+Closes: #123456
+```
+Implement new feature:
+```
+feat: implement new magic decorator
+
+This new feature change bahviour of drapit to allow use new magic decorator...
+
+Closes: #22222
+```
+Doc update:
+```
+doc: update supported mssql column types
+```
+Breaking change:
+```
+refactor: refactor driver API
+
+BREAKING CHANGE: description of breaking change in driver API
+```
+
+## Credits
+
+
+### Contributors
+
+Thank you to all the people who have already contributed to drapit!
+
+
+<a href="https://github.com/drapit/drapit/graphs/contributors">
+  <a href="https://github.com/ModestoFiguereo" >
+    <img src="https://github.com/ModestoFiguereo.png?size=35">
+  </a>
+</a>
+
