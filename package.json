@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "Template for building simple rest APIs using basic DDD principles.",
   "main": "index.js",
+  "author": {
+    "name": "Modesto Figuereo",
+    "email": "me@modestofiguereo.com"
+  },
   "directories": {
     "test": "tests"
   },

@@ -9,8 +9,6 @@ Are you tired of having to bootstrap projects from scratch. Most of the time Res
 
 This template is built using DDD concepts, as well as Onion Architecture and Hexagonal Architecture.
 
-![example-uml](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/drapit/drapit/main/docs/diagrams/components.puml)
-
 ## Features
 
 | Feature | Description | Implemented? |

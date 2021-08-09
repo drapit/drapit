@@ -1,0 +1,46 @@
+@startuml
+skinparam linetype ortho
+
+package "Drapit" {
+  component Api {
+    [Decorators]
+
+    component Versions {
+      [DTOs]
+      [Controllers]
+    }
+  }
+
+  component Infrastructure {
+    [Enums]
+    [Event Managers]
+    [Loggers]
+    [Repositories]
+    [Web Server]
+    [Open Api Generator]
+    [Startup]
+  }
+
+  component Application {
+    [Commands]
+    [Queries]
+    [Enums]
+    [Interfaces]
+    [Workers]
+    [Listeners]
+  }
+
+  component Global {
+    [Global Decorators]
+    [Event Bus]
+    [Multilogger]
+  }
+
+  note right of Global: This services are globally\navailabe without the need\nto import them.
+
+  Api -d-> Application: Uses
+  Api -d-> Infrastructure: Uses
+  Infrastructure -r-> Application: Uses
+}
+
+@enduml
