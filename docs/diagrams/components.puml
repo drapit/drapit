@@ -36,7 +36,7 @@ package "Drapit" {
     [Multilogger]
   }
 
-  note right of Global: This services are globally\navailabe without the need\nto import them.
+  note right of Global: This services are globally\navailable without the need\nto import them.
 
   Api -d-> Application: Uses
   Api -d-> Infrastructure: Uses
