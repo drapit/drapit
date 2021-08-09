@@ -1,24 +1,39 @@
 @startuml
 skinparam linetype ortho
 
+top to bottom direction
+
 package "Drapit" {
   component Api {
-    [Decorators]
-
     component Versions {
       [DTOs]
       [Controllers]
     }
   }
 
+  component Global as G {
+    [Global Decorators]
+    [Event Bus]
+    [Multilogger]
+  }
+
+
   component Infrastructure {
     [Enums]
-    [Event Managers]
+    [Event Managers] as EM
     [Loggers]
     [Repositories]
-    [Web Server]
-    [Open Api Generator]
+    [Web Server] as WS
+
+    component "Open Api" as OA {
+      [Generator]
+      [Decorators]
+    }
     [Startup]
+
+
+    WS -[hidden]d-> OA
+    WS -[hidden]up-> EM
   }
 
   component Application {
@@ -30,17 +45,11 @@ package "Drapit" {
     [Listeners]
   }
 
-  component Global {
-    [Global Decorators]
-    [Event Bus]
-    [Multilogger]
-  }
+  note top of G: This services are globally\navailable without the need\nto import them.
 
-  note right of Global: This services are globally\navailable without the need\nto import them.
-
-  Api -d-> Application: Uses
-  Api -d-> Infrastructure: Uses
-  Infrastructure -r-> Application: Uses
+  Api --> Application
+  Api --> Infrastructure
+  Infrastructure --> Application
 }
 
 @enduml
