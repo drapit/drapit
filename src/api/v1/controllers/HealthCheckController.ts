@@ -12,7 +12,7 @@ import HttpResponse from "infrastructure/helpers/HttpResponse";
 import BaseController from "api/BaseController";
 import Health from "../dtos/resources/Health";
 
-@Tag("build-in")
+@Tag("built-in")
 @Controller("/health-check")
 export default class HealthCheckController extends BaseController {
   @Get("/")
