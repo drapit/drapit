@@ -15,6 +15,7 @@ There are two ways how you can have your question answered:
 
 * You can [start a discussion](#start-a-discussion). 
 * You can [submit an issue](#submit-issue).
+* You can [joint Drapit's discord](https://discord.gg/5K4dgCfzcB).
 
 ## <a name="issue"></a> Found a security vulnerability?
 
