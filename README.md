@@ -5,6 +5,10 @@
 
 Are you tired of having to bootstrap projects from scratch? Most of the time Rest APIs have similar needs, Drapit is a template that have most common tools needed to build REST APIs.
 
+## How to use?
+
+Learn how to setup your environment in our [developer documentation](DEVELOPER.md).
+
 ## Architecture
 
 Drapit is built using DDD concepts, as well as Onion Architecture and Hexagonal Architecture. Believing in making the biggest decisions when the most knowledge is available.
