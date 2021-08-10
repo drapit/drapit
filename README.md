@@ -61,7 +61,7 @@ Thank you to all the people who have already contributed to Drapit!
 
 Learn how you can contribute to the codebase [here](./CONTRIBUTING.md).
 
-You can also support us by making a donation.
+You can also support Drapit by making a donation.
 
 [![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/donate?business=2WRWS8W3V9DLE&no_recurring=0&currency_code=USD)
 
