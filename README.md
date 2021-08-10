@@ -54,3 +54,21 @@ Credit: [@tofo](https://twitter.com/tofo/status/512666251055742977)
 | [Nodemon](https://nodemon.io/) | Changes watcher |
 | [Eslint](https://eslint.org/) | Code style enforcer |https://github.com/metadevpro/openapi3-ts
 | [openapi3-ts](https://github.com/metadevpro/openapi3-ts) | OpenAPI/Swagger Spec Generator |
+
+## Contributing
+
+Thank you to all the people who have already contributed to Drapit!
+
+Learn how you can contribute to the codebase [here](./CONTRIBUTING.md).
+
+You can also support us by making a donation.
+
+[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/donate?business=2WRWS8W3V9DLE&no_recurring=0&currency_code=USD)
+
+### Contributors
+
+<a href="https://github.com/drapit/drapit/graphs/contributors">
+  <a href="https://github.com/ModestoFiguereo" >
+    <img src="https://github.com/ModestoFiguereo.png?size=35">
+  </a>
+</a>
