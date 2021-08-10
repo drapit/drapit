@@ -34,12 +34,12 @@ export default class Server implements ISetup {
   public setup(): void {
     this.app.disable("x-powered-by");
 
-    this.setUpCors();
-    this.setUpSecurityMiddleWare();
-    this.setUpParsers();
-    this.setUpCompression();
-    this.mountVersions();
-    this.mountDocs();
+    this.setupCors();
+    this.setupSecurityMiddleWare();
+    this.setupParsers();
+    this.setupCompression();
+    this.setupAPI();
+    this.setupSwaggerUI();
     this.run();
   }
 
@@ -75,8 +75,7 @@ export default class Server implements ISetup {
   }
 
   private getVersionName(versionDir: string): string {
-    const regex = /v[.0-9]+/;
-    const match = versionDir.match(regex);
+    const match = versionDir.match(Server.NAME_CONVENTION_REGEX);
 
     if (match == null) {
       throw new Error("API version directory not following naming conventing");
@@ -85,16 +84,16 @@ export default class Server implements ISetup {
     return match[0];
   }
 
-  private setUpCors(): void {
+  private setupCors(): void {
     this.app.use(cors());
   }
 
-  private setUpSecurityMiddleWare(): void {
+  private setupSecurityMiddleWare(): void {
     this.app.use(lusca.xframe("SAMEORIGIN"));
     this.app.use(lusca.xssProtection(true));
   }
 
-  private setUpParsers(): void {
+  private setupParsers(): void {
     this.app.use(cookieParser());
     this.app.use(
       bodyParser.urlencoded({
@@ -109,7 +108,7 @@ export default class Server implements ISetup {
     );
   }
 
-  private setUpCompression(): void {
+  private setupCompression(): void {
     this.app.use(
       compression({
         filter: (req: Request, res: Response): boolean => {
@@ -121,7 +120,7 @@ export default class Server implements ISetup {
     );
   }
 
-  private mountVersions(): void {
+  private setupAPI(): void {
     for (const version of this.versions) {
       const router = Router().get("/docs", (_: Request, res: Response) =>
         res.status(200).json(version.docs)
@@ -136,7 +135,7 @@ export default class Server implements ISetup {
     }
   }
 
-  private mountDocs(): void {
+  private setupSwaggerUI(): void {
     this.app.use(
       "/api/docs",
       swaggerUi.serve,
@@ -160,7 +159,7 @@ export default class Server implements ISetup {
   private run(): void {
     this.app.listen(config.api.port, () => {
       Logger.info(
-        `Example app listening at http://localhost:${config.api.port}`
+        `${config.api.name} listening at http://localhost:${config.api.port}`
       );
     });
   }
