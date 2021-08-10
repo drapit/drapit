@@ -68,7 +68,7 @@ Before you submit your Pull Request (PR) consider the following guidelines:
      ```
 
 * Create your patch, **including appropriate test cases**. Without tests your PR will not be accepted.
-* Run the full Drapit test suite, as described in the [developer documentation](DEVELOPER.md) (@TODO), and ensure that all tests pass.
+* Run the full Drapit test suite, as described in the [developer documentation](DEVELOPER.md), and ensure that all tests pass.
 * Commit your changes using a descriptive commit message that follows our [commit message conventions](#commit). Adherence to these conventions is necessary because release notes are automatically generated from these messages.
 
      ```shell
@@ -207,18 +207,3 @@ refactor: refactor driver API
 
 BREAKING CHANGE: description of breaking change in driver API
 ```
-
-## Credits
-
-
-### Contributors
-
-Thank you to all the people who have already contributed to drapit!
-
-
-<a href="https://github.com/drapit/drapit/graphs/contributors">
-  <a href="https://github.com/ModestoFiguereo" >
-    <img src="https://github.com/ModestoFiguereo.png?size=35">
-  </a>
-</a>
-
