@@ -51,13 +51,12 @@ Credit: [@tofo](https://twitter.com/tofo/status/512666251055742977)
 
 | Tool | Description |
 |--|--|
-| [Node.js](https://nodejs.org/) | Development platform |
-| [Typecript](https://www.typescriptlang.org/) | Programing language |
 | [Express](https://expressjs.com/) | Web server |
-| [ts-node](https://typestrong.org/ts-node/) | Development environment runner |
-| [Nodemon](https://nodemon.io/) | Changes watcher |
-| [Eslint](https://eslint.org/) | Code style enforcer |https://github.com/metadevpro/openapi3-ts
-| [openapi3-ts](https://github.com/metadevpro/openapi3-ts) | OpenAPI/Swagger Spec Generator |
+| [Knexjs](https://knexjs.org/) | Migrations / Seeders |
+| Default: [Typeorm](https://typeorm.io/), but you can choose any other | ORM |
+| [Typecript](https://www.typescriptlang.org/) | Programing language |
+| [Node.js](https://nodejs.org/) | Development platform |
+| Default: [Postgresql](https://www.postgresql.org/), but you can choose any other | DB |
 
 ## Contributing
 
