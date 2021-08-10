@@ -2,10 +2,12 @@ import fs from "fs";
 import glob from "glob";
 import path from "path";
 import ISetup from "infrastructure/ISetup";
+import { directories } from "config";
 
+// TODO: Account for decorators directory
 export default class GlobalServices implements ISetup {
   public setup(): void {
-    const services = path.join(__dirname, "../../global");
+    const services = directories.global;
 
     glob.sync(`${services}/*`).forEach((filePath: string) => {
       if (fs.lstatSync(path.resolve(filePath)).isDirectory()) return;

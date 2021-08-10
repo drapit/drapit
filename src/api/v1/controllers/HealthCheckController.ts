@@ -7,10 +7,10 @@ import {
   Xml,
   Description,
   Tag,
-} from "controllers/decorators";
+} from "infrastructure/openapi/decorators";
 import HttpResponse from "infrastructure/helpers/HttpResponse";
-import BaseController from "controllers/BaseController";
-import Health from "./dtos/resources/Health";
+import BaseController from "api/BaseController";
+import Health from "../dtos/resources/Health";
 
 @Tag("build-in")
 @Controller("/health-check")

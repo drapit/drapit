@@ -37,6 +37,7 @@ package "Drapit" {
   }
 
   component Application {
+    [Domain]
     [Commands]
     [Queries]
     [Enums]

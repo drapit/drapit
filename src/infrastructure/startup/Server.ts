@@ -13,6 +13,9 @@ import swaggerUi from "swagger-ui-express";
 import * as config from "config";
 
 export default class Server implements ISetup {
+  private static readonly API_DIR: string = config.directories.api;
+  private static readonly SWAGGER_DIR: string = config.directories.swagger;
+
   public setup(): void {
     const app = express();
 
@@ -57,27 +60,26 @@ export default class Server implements ISetup {
   }
 
   private loadVersions(app: Application) {
-    const root = config.api.rootDir;  
-    const directory = path.join(root, "src/controllers");
     const versions: string[] = [];
 
-    glob.sync(`${directory}/v*`).forEach((directoryPath: string) => {
-      if (!fs.lstatSync(path.resolve(directoryPath)).isDirectory()) return;
+    glob.sync(`${Server.API_DIR}/v*`).forEach((versionDir: string) => {
+      if (!fs.lstatSync(path.resolve(versionDir)).isDirectory()) return;
+      const controllersDir = `${versionDir}/controllers`;
       const router = Router();
-      const version = this.getVersion(directoryPath);
+      const version = this.getVersion(versionDir);
 
       versions.push(version);
       app.use(`/api/${version}`, router);
 
       // eslint-disable-next-line @typescript-eslint/no-var-requires
-      const docs = require(`${root}/.swagger/swagger.${version}.json`);
+      const docs = require(`${Server.SWAGGER_DIR}/swagger.${version}.json`);
       
       router.get("/docs", (_: Request, res: Response) => {
         return res.status(200).json(docs);
       });
 
-      fs.readdirSync(directoryPath).forEach((fileName: string) => {
-        const fullPath = `${directoryPath}/${fileName}`;
+      fs.readdirSync(controllersDir).forEach((fileName: string) => {
+        const fullPath = `${controllersDir}/${fileName}`;
   
         if (fs.lstatSync(fullPath).isDirectory()) return;
   

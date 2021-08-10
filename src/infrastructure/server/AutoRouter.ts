@@ -3,7 +3,7 @@ import {
   Constructor,
   HttpMethods,
   RouteDefinition,
-} from "controllers/decorators";
+} from "infrastructure/openapi/decorators";
 import { Router } from "express";
 import RouteHelper from "infrastructure/helpers/Route";
 import IRoute from "./routers/IRoute";

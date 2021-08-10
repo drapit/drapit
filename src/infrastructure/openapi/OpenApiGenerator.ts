@@ -1,12 +1,12 @@
 import "reflect-metadata";
-import BaseController from "controllers/BaseController";
+import BaseController from "api/BaseController";
 import {
   HttpMethods,
   ParameterContainers,
   ResponseDefinition,
   RouteDefinition,
   TagDefinition,
-} from "controllers/decorators";
+} from "infrastructure/openapi/decorators";
 import {
   OpenApiBuilder,
   PathItemObject,
