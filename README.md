@@ -7,11 +7,17 @@ Are you tired of having to bootstrap projects from scratch? Most of the time Res
 
 ## Architecture
 
-This template is built using DDD concepts, as well as Onion Architecture and Hexagonal Architecture.
+Drapit is built using DDD concepts, as well as Onion Architecture and Hexagonal Architecture. Believing in making the biggest decisions when the most knowledge is available.
 
 See the [Glossary of Architecture Concepts](./docs/ARCHITECTURE_CONCEPT_GLOSSARY.md).
 
 ![example-uml](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/drapit/drapit/main/docs/diagrams/components.puml)
+
+Avoid the project paradox whenever possible:
+
+![project-paradox](./docs/images/project-paradox.png)
+Credit: [@tofo](https://twitter.com/tofo/status/512666251055742977)
+
 
 ## Features
 
