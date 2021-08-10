@@ -2,16 +2,16 @@ import ISetup from "infrastructure/ISetup";
 import fs from "fs";
 import path from "path";
 import glob from "glob";
-import OpenApiGenerator from "infrastructure/server/openapi/OpenApiGenerator";
+import OpenApiGenerator from "infrastructure/openapi/OpenApiGenerator";
 import { OpenApiBuilder } from "openapi3-ts";
 import * as config from "config";
-import { TagDefinition } from "controllers/decorators/Definitions";
+import { TagDefinition } from "infrastructure/openapi/decorators/Definitions";
 
 export default class Swagger implements ISetup {
-  public setup(): void {
-    const directory = path.join(__dirname, "../../controllers");
+  private static readonly API_DIR: string = config.directories.api;
 
-    glob.sync(`${directory}/v*`).forEach((directoryPath: string) => {
+  public setup(): void {
+    glob.sync(`${Swagger.API_DIR}/v*`).forEach((directoryPath: string) => {
       if (!fs.lstatSync(path.resolve(directoryPath)).isDirectory()) return;
       const directories = directoryPath.split("/");
       const version = directories[directories.length - 1];

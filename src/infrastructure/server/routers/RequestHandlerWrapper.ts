@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import { ParameterContainers, ParametersDefinition, RouteDefinition } from "controllers/decorators";
+import { ParameterContainers, ParametersDefinition, RouteDefinition } from "infrastructure/openapi/decorators";
 import { Request, RequestHandler, Response } from "express";
 import HttpResponse from "infrastructure/helpers/HttpResponse";
 import queryString from 'query-string';

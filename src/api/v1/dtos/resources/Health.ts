@@ -1,5 +1,5 @@
-import { Resource, UnixTimestamp } from "controllers/decorators";
-import { Seconds } from "controllers/decorators";
+import { Resource, UnixTimestamp } from "infrastructure/openapi/decorators";
+import { Seconds } from "infrastructure/openapi/decorators";
 
 @Resource("API's Health information")
 export default class Health {
