@@ -3,7 +3,10 @@
 
 **WIP: No released yet**
 
-Are you tired of having to bootstrap projects from scratch? Most of the time Rest APIs have similar needs, Drapit is a template that have most common tools needed to build REST APIs.
+<a href="https://twitter.com/tofo/status/512666251055742977">
+
+  ![project-paradox](./docs/images/project-paradox.png)
+</a>
 
 ## How to use?
 
@@ -17,46 +20,23 @@ See the [Glossary of Architecture Concepts](./docs/ARCHITECTURE_CONCEPT_GLOSSARY
 
 ![example-uml](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/drapit/drapit/main/docs/diagrams/components.puml)
 
-Avoid the project paradox whenever possible:
-
-![project-paradox](./docs/images/project-paradox.png)
-Credit: [@tofo](https://twitter.com/tofo/status/512666251055742977)
-
-
 ## Features
 
-| Feature | Description | Implemented? |
-|:--|:--|:--|
-| API Versioning | Easily create controllers that respond to different versions (`/api/v1`, `/api/v2`...) of your public Rest API | Yes |
-| Decorator Routing | Use decorators such as `@Controller('/people')`, `@Get('/')`, `@Get('/:id')`, `@Post('/')`, to route your endpoints | Yes |
-| Decorator Swagger Documentation | @TODO | In Progress |
-| Decorator Params Validation | @TODO | |
-| Auto Generate Rest API Tests | @TODO | |
-| Health Check Endpoint | @TODO | Yes |
-| JWT Authentication | With Password, Client ID/Secrect and API_KEY support |  |
-| Session Token Authentication | With Password, Client ID/Secrect and API_KEY support | |
-| Websockets | @TODO | |
-| Decorator Dependency Injection | @TODO | |
-| Feature Toggling | @TODO | |
-| Event/Listeners | @TODO | In Progress |
-| File Uploading | @TODO | |
-| History Recorder/Audit | @TODO | |
-| Code Generation | @TODO | |
-| Worker Queues | @TODO | |
-| Locale Support | @TODO | |
-| Auto Generate PlantUML for Domain Model | @TODO | |
-| Multi Logger | User same interface (`Logger.info(...)`, `Logger.verbose(...)`, `Logger.error(...)`, etc) to log to multiple log aggregation providers and the console. | Yes |
- 
+- [API Versioning](./docs/features/API_VERSIONING.md)
+- [Decorator Routing](./docs/features/DECORATOR_ROUTING.md)
+- [Decorator Swagger/OpenApi Documentation](./docs/features/DECORATOR_OPENAPI_DOCUMENTATION.md) (WIP)
+- [Multi Logger](./docs/features/MULTI_LOGGER.md) 
+
 ## Tech Stack
 
 | Tool | Description |
 |--|--|
-| [Express](https://expressjs.com/) | Web server |
-| [Knexjs](https://knexjs.org/) | Migrations / Seeders |
-| Default: [Typeorm](https://typeorm.io/), but you can choose any other | ORM |
-| [Typecript](https://www.typescriptlang.org/) | Programing language |
 | [Node.js](https://nodejs.org/) | Development platform |
-| Default: [Postgresql](https://www.postgresql.org/), but you can choose any other | DB |
+| [Typecript](https://www.typescriptlang.org/) | Programing language |
+| Default: [Express](https://expressjs.com/), you can choose any other | Web server |
+| Default: [Knexjs](https://knexjs.org/), you can choose any other | Migrations / Seeders |
+| Default: [Typeorm](https://typeorm.io/), you can choose any other | ORM |
+| Default: [Postgresql](https://www.postgresql.org/), you can choose any other | DB |
 
 ## Contributing
 
