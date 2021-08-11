@@ -107,14 +107,24 @@ This command will run the api for production.
 
 It would be greatly appreciated if PRs that change code come with appropriate tests.
 
-To create a test for a specific issue opened on github, create a file: `test/github-issues/<num>/issue-<num>.ts` where
+To create a test for a specific issue opened on github, create a file: `tests/github-issues/<num>/issue-<num>.ts` where
 `<num>` is the corresponding github issue. For example, if you were creating a PR to fix github issue #363, you'd
-create `test/github-issues/363/issue-363.ts`.
+create `tests/github-issues/363/issue-363.ts`.
 
 Most tests will benefit from using this template as a starting point:
 
 ```ts
-// TODO: create testing template
+import "reflect-metadata";
+import { expect } from "chai";
+
+describe("github issues > #<issue number> <issue title>", () => {
+  it("should <put a detailed description of what it should do here>", () => {
+    // test go here
+  });
+  
+  // you can add additional tests if needed
+});
+
 ```
 
 You should execute test suites before submitting a PR to github.
