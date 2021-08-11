@@ -1,52 +1,20 @@
-import { Resource, UnixTimestamp } from "infrastructure/openapi/decorators";
+import {
+  Description,
+  Resource,
+  UnixTimestamp,
+} from "infrastructure/openapi/decorators";
 import { Seconds } from "infrastructure/openapi/decorators";
+import AutoAssign from "infrastructure/openapi/decorators/AutoAssign";
+import DTO from "./DTO";
 
-// TODO: move this to another file.
-class DTO {
-  public constructor(params: Partial<DTO>) {
-    // The constructor is needed for @AutoAssign to work
-  }
-}
-
-/**
- * Health Resource. Contains information about the health of the API.
- *
- * @export
- * @class Health
- * @extends {DTO}
- */
 @Resource("API's Health information")
 @AutoAssign
-export default class Health extends DTO {
-  /**
-   * Number of seconds since last restart.
-   *
-   * @type {number}
-   * @memberof Health
-   */
+export default class Health extends DTO<Health> {
   @Seconds()
+  @Description("Number of seconds since last restart.")
   public uptime?: number;
 
-  /**
-   * Now Date and Time.
-   *
-   * @type {number}
-   * @memberof Health
-   */
   @UnixTimestamp()
+  @Description("Right now timestamp.")
   public readonly timestamp?: number = Date.now();
-}
-
-// TODO: move this to another file.
-function AutoAssign<T extends { new (...args: any[]): {} }>(constructor: T) {
-  return class extends constructor {
-    public constructor(...args: any[]) {
-      super();
-      const [params = {}] = args;
-
-      Object.keys(params).forEach((key) => {
-        (this as any)[key] = params[key];
-      });
-    }
-  };
 }

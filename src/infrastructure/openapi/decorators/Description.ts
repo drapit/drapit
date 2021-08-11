@@ -7,7 +7,8 @@ import Action from "./Action";
  * @param {string} description
  * @return {*}  {(PropertyDecorator | MethodDecorator)}
  */
-function Description(description: string): PropertyDecorator | MethodDecorator {
+function Description(description: string): PropertyDecorator;
+function Description(description: string): MethodDecorator {
   return (
     target: Object,
     propertyKey: string | symbol,
