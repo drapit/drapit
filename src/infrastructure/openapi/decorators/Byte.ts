@@ -1,5 +1,8 @@
-import Type from "./Type";
+import Property from "./Property";
 
-const IsByte = Type('string', 'byte');
+const IsByte = Property({
+  type: "string",
+  format: 'byte',
+});
 
 export default IsByte;

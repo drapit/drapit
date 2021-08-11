@@ -1,5 +1,5 @@
-import Type from "./Type";
+import Property from "./Property";
 
-const IsDate = Type('date');
+const IsDate = Property({ type: "date" });
 
 export default IsDate;

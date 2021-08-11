@@ -1,5 +1,5 @@
-import Type from "./Type";
+import Property from "./Property";
 
-const IsBoolean = Type('boolean');		
+const IsBoolean = Property({ type: "boolean" });
 
 export default IsBoolean;

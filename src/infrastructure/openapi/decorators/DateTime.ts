@@ -1,5 +1,8 @@
-import Type from "./Type";
+import Property from "./Property";
 
-const IsDateTime = Type('date-time');
+const IsDateTime = Property({
+  type: "date-time",
+  format: 'binary',
+});
 
 export default IsDateTime;

@@ -6,6 +6,12 @@ import {
 } from "./Definitions";
 
 // TODO: Automate testing
+
+/**
+ * Parameter decorator factory
+ *
+ * @param {ParameterContainers} from
+ */
 const Parameter =
   (from: ParameterContainers) =>
   <T>(

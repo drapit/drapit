@@ -1,5 +1,8 @@
-import Type from "./Type";
+import Property from "./Property";
 
-const IsBinary = Type('string', 'binary');
+const IsBinary = Property({
+  type: "string",
+  format: 'binary',
+});
 
 export default IsBinary;

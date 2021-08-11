@@ -1,6 +1,15 @@
+import Action from "./Action";
 import { PropertyDefinition, Constructor } from "./Definitions";
-import Route from "./Route";
 
+/**
+ * Response decorator.
+ *
+ * @template R
+ * @param {number} status
+ * @param {(Constructor<R> | null)} [ResponseType]
+ * @param {string} [description]
+ * @return {*}  {MethodDecorator}
+ */
 const Responds = <R>(
   status: number,
   ResponseType?: Constructor<R> | null,
@@ -19,7 +28,7 @@ const Responds = <R>(
     description = description || resourceDescription;
   }
 
-  return Route({
+  return Action({
     responses: [
       {
         description,

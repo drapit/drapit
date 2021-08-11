@@ -1,5 +1,8 @@
-import Type from "./Type";
+import Property from "./Property";
 
-const IsInt32 = Type('integer', 'int32');
+const IsInt32 = Property({
+  type: "integer",
+  format: 'int32',
+});
 
 export default IsInt32;

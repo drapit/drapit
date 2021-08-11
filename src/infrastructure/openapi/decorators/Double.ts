@@ -1,5 +1,8 @@
-import Type from "./Type";
+import Property from "./Property";
 
-const IsDouble = Type('number', 'double');		
+const IsDouble = Property({
+  type: "number",
+  format: 'double',
+});	
 
 export default IsDouble;

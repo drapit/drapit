@@ -1,5 +1,4 @@
 import "reflect-metadata";
-import BaseController from "api/BaseController";
 import {
   Constructor,
   HttpMethods,

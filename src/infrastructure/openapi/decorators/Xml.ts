@@ -1,6 +1,6 @@
 import MIMETypes from "application/enums/MIMETypes";
-import Route from "./Route";
+import Action from "./Action";
 
-const Xml = (): MethodDecorator => Route({ contentTypes: [MIMETypes.xml]});
+const Xml = (): MethodDecorator => Action({ contentTypes: [MIMETypes.xml]});
 
 export default Xml;
