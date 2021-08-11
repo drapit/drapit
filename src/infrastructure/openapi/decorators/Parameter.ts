@@ -44,7 +44,7 @@ const Parameter =
   
           return {
             name: key,
-            required: false, // TODO: hard coded for now remember to use the proper value when available
+            required: property?.required,
             type: property?.type || "string",
             format: property?.format,
             description: property?.description,
