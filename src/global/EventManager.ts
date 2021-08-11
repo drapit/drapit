@@ -3,7 +3,12 @@ import IEventManager from "application/interfaces/IEventManager";
 import Event from "application/domain/events/Event";
 import { events } from "config";
 
-// TODO: Auto subscribe event listeners.
+/**
+ * Global service which allows you to manage event listeners.
+ *
+ * @export
+ * @class EventManager
+ */
 export default class EventManager {
 
   private static manager: IEventManager = events.manager;

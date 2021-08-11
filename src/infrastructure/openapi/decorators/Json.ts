@@ -1,6 +1,6 @@
 import MIMETypes from "application/enums/MIMETypes";
-import Route from "./Route";
+import Action from "./Action";
 
-const Json = (): MethodDecorator => Route({ contentTypes: [MIMETypes.json]});
+const Json = (): MethodDecorator => Action({ contentTypes: [MIMETypes.json]});
 
 export default Json;

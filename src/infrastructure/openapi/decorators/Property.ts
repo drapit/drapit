@@ -1,5 +1,11 @@
 import { PropertyDefinition } from "./Definitions";
 
+/**
+ * Property decorator factory.
+ * It allows to easily create new decorators for resources' properties.
+ *
+ * @param {Partial<PropertyDefinition>} property
+ */
 const Property = (property: Partial<PropertyDefinition>) => (): PropertyDecorator => {
   return (target: Object, propertyKey: string | symbol): void => {
     if (!Reflect.hasMetadata("properties", target.constructor)) {

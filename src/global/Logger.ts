@@ -1,6 +1,12 @@
 import ILogger from "application/interfaces/ILogger";
 import { logging } from "config";
 
+/**
+ * Global service which allows to log to multiple implementations at once.
+ *
+ * @export
+ * @class Logger
+ */
 export default class Logger {
   private static loggers: ILogger[] = logging.loggers;
 

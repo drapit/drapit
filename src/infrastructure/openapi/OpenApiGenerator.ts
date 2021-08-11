@@ -1,6 +1,6 @@
 import "reflect-metadata";
-import BaseController from "api/BaseController";
 import {
+  Constructor,
   HttpMethods,
   ParameterContainers,
   ResponseDefinition,
@@ -18,13 +18,49 @@ import {
 import MIMETypes from "application/enums/MIMETypes";
 import RouteHeper from "infrastructure/helpers/Route";
 
+/**
+ * Generates OpenApi specification based on the metadata
+ * provided by the decorators used in the controller.
+ *
+ * @export
+ * @class OpenApiGenerator
+ */
 export default class OpenApiGenerator {
+  /**
+   * Controller path.
+   *
+   * @private
+   * @type {string}
+   * @memberof OpenApiGenerator
+   */
   private path: string;
-  private Controller: typeof BaseController;
+
+  /**
+   * Constructor of the controller. 
+   *
+   * @private
+   * @type {Constructor}
+   * @memberof OpenApiGenerator
+   */
+  private Controller: Constructor;
+  
+  /**
+   * Builder for the specification.
+   *
+   * @private
+   * @type {OpenApiBuilder}
+   * @memberof OpenApiGenerator
+   */
   private documentation: OpenApiBuilder;
 
+  /**
+   * Creates an instance of OpenApiGenerator.
+   * @param {Constructor} Controller
+   * @param {OpenApiBuilder} documentation
+   * @memberof OpenApiGenerator
+   */
   public constructor(
-    Controller: typeof BaseController,
+    Controller: Constructor,
     documentation: OpenApiBuilder
   ) {
     this.Controller = Controller;
@@ -32,6 +68,11 @@ export default class OpenApiGenerator {
     this.path = Reflect.getMetadata("prefix", Controller);
   }
 
+  /**
+   * Generates the documentation for the controller.
+   *
+   * @memberof OpenApiGenerator
+   */
   public generate(): void {
     const tags: TagDefinition[] = Reflect.getMetadata("tags", this.Controller);
     const routes: Array<RouteDefinition> = Reflect.getMetadata(
@@ -56,6 +97,14 @@ export default class OpenApiGenerator {
     }
   }
 
+  /**
+   * Generates documentation of the responses of the controller action.
+   *
+   * @private
+   * @param {RouteDefinition} route
+   * @return {*}  {ResponseObject}
+   * @memberof OpenApiGenerator
+   */
   private generateResponses(route: RouteDefinition): ResponseObject {
     const contentTypes = route.contentTypes || [MIMETypes.json, MIMETypes.xml];
 
@@ -77,6 +126,14 @@ export default class OpenApiGenerator {
     ) as ResponseObject;
   }
 
+  /**
+   * Generates documentation of the schema of the responses. 
+   *
+   * @private
+   * @param {ResponseDefinition} response
+   * @return {*}  {SchemaObject}
+   * @memberof OpenApiGenerator
+   */
   private generateResponseSchema(response: ResponseDefinition): SchemaObject {
     if (response.schema == null) return {};
 
@@ -137,6 +194,14 @@ export default class OpenApiGenerator {
     };
   }
 
+  /**
+   * Generates documentation of the parameters of the controller actions.
+   *
+   * @private
+   * @param {RouteDefinition} route
+   * @return {*}  {ParameterObject[]}
+   * @memberof OpenApiGenerator
+   */
   private generateParameters(route: RouteDefinition): ParameterObject[] {
     if (!route.parameters?.length) return [];
 
@@ -163,6 +228,14 @@ export default class OpenApiGenerator {
       }, []);
   }
 
+  /**
+   * Generates documentation of the body payload of controller actions.
+   *
+   * @private
+   * @param {RouteDefinition} route
+   * @return {*}  {(RequestBodyObject | undefined)}
+   * @memberof OpenApiGenerator
+   */
   private generateRequestBody(
     route: RouteDefinition
   ): RequestBodyObject | undefined {

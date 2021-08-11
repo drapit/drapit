@@ -1,6 +1,12 @@
-import Route from "./Route";
 import Property from "./Property";
+import Action from "./Action";
 
+/**
+ * Description decorator for properties and controller actions.
+ *
+ * @param {string} description
+ * @return {*}  {(PropertyDecorator | MethodDecorator)}
+ */
 function Description(description: string): PropertyDecorator;
 function Description(description: string): MethodDecorator {
   return (
@@ -11,7 +17,7 @@ function Description(description: string): MethodDecorator {
     const isForRoute = descriptor != null;
 
     if (isForRoute) {
-      Route({ description })(target, propertyKey, descriptor);
+      Action({ description })(target, propertyKey, descriptor);
       return;
     }
 

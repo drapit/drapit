@@ -10,7 +10,21 @@ type ControllerAction = (
   // user: unknown
 ) => Promise<HttpResponse<unknown>>;
 
+/**
+ * Common wrapper for all controller actions.
+ *
+ * @export
+ * @class RequestHandlerWrapper
+ */
 export default class RequestHandlerWrapper {
+  /**
+   * Calls the controller action and handles throws.
+   *
+   * @param {ControllerAction} action
+   * @param {RouteDefinition} route
+   * @return {*}  {RequestHandler}
+   * @memberof RequestHandlerWrapper
+   */
   public handle(action: ControllerAction, route: RouteDefinition): RequestHandler {
     return async (req: Request, res: Response): Promise<unknown> => {
       try {
@@ -27,6 +41,17 @@ export default class RequestHandlerWrapper {
     }
   }
 
+  /**
+   * Gets the params expected by the controller action and convert them
+   * to the expected type.
+   * It uses the metadata provided by the parameter decorators.
+   *
+   * @private
+   * @param {Request} req
+   * @param {ParametersDefinition[]} [parameters=[]]
+   * @return {*} 
+   * @memberof RequestHandlerWrapper
+   */
   private getParams(req: Request, parameters: ParametersDefinition[] = []) {
     return parameters.map(({ in: from, ParameterType }) => {
       const options = { parseBooleans: true, parseNumbers: true };

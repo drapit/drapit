@@ -1,5 +1,5 @@
-import Type from "./Type";
+import Property from "./Property";
 
-const IsString = Type('string');
+const IsString = Property({ type: "string" });
 
 export default IsString;

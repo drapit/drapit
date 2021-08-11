@@ -1,5 +1,9 @@
-import Type from "./Type";
+import Property from "./Property";
 
-const IsFloat = Type('number', 'float');		
+const IsFloat = Property({
+  type: "number",
+  format: 'float',
+});
+
 
 export default IsFloat;

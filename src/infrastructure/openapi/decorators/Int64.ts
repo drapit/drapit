@@ -1,5 +1,8 @@
-import Type from "./Type";
+import Property from "./Property";
 
-const IsInt64 = Type('integer', 'int64');
+const IsInt64 = Property({
+  type: "integer",
+  format: 'int64',
+});
 
 export default IsInt64;

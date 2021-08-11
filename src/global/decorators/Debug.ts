@@ -1,4 +1,10 @@
-// TODO: automate testing
+// TODO: automated testing
+
+/**
+ * Allows to log input and output of a method.
+ *
+ * @return {*}  {MethodDecorator}
+ */
 const Debug = (): MethodDecorator => {
   return (
     target: Object,

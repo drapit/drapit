@@ -1,3 +1,5 @@
+// TODO: find a better place for this file.
+
 import MIMETypes from "application/enums/MIMETypes";
 
 export enum HttpMethods {

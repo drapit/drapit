@@ -3,6 +3,14 @@ import { Constructor, RouteDefinition } from "infrastructure/openapi/decorators"
 import { Router } from "express";
 import IRoute from "./IRoute";
 
+/**
+ * Base request router.
+ *
+ * @export
+ * @abstract
+ * @class PathRouter
+ * @implements {IRoute}
+ */
 export default abstract class PathRouter implements IRoute {
   protected path: string;
   protected router: Router;

@@ -1,5 +1,5 @@
-import Type from "./Type";
+import Property from "./Property";
 
-const IsPassword = Type('password');
+const IsPassword = Property({ type: "password" });
 
 export default IsPassword;
