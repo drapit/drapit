@@ -46,7 +46,7 @@ Learn how you can contribute to the codebase [here](./CONTRIBUTING.md).
 
 You can also support Drapit by making a donation.
 
-[![Donate](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/donate?business=2WRWS8W3V9DLE&no_recurring=0&currency_code=USD)
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/M4M85NS85)
 
 ### Contributors
 
