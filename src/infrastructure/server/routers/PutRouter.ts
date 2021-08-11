@@ -5,6 +5,14 @@ import PathRouter from "./PathRouter";
 import IRoute from "./IRoute";
 import RequestHandlerWrapper from "./RequestHandlerWrapper";
 
+/**
+ * Routes PUT requests.
+ *
+ * @export
+ * @class PutRouter
+ * @extends {PathRouter}
+ * @implements {IRoute}
+ */
 export default class PutRouter extends PathRouter implements IRoute {
   public route(route: RouteDefinition): void {
     const path = RouteHelper.sanitize(`${route.path}`);

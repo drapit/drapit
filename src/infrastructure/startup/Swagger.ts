@@ -7,9 +7,17 @@ import { OpenApiBuilder } from "openapi3-ts";
 import * as config from "config";
 import { TagDefinition } from "infrastructure/openapi/decorators/Definitions";
 
+/**
+ * This class generates swagger/openapi documentation files.
+ *
+ * @export
+ * @class Swagger
+ * @implements {ISetup}
+ */
 export default class Swagger implements ISetup {
   private static readonly API_DIR: string = config.directories.api;
 
+  // TODO: split into smaller methods
   public setup(): void {
     glob.sync(`${Swagger.API_DIR}/v*`).forEach((directoryPath: string) => {
       if (!fs.lstatSync(path.resolve(directoryPath)).isDirectory()) return;

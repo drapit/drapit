@@ -13,11 +13,24 @@ import PatchRouter from "./routers/PatchRouter";
 import PutRouter from "./routers/PutRouter";
 import DeleteRouter from "./routers/DeleteRouter";
 
+/**
+ * This mount routes automatically.
+ * It uses the metadata provided by the routing decorators. 
+ *
+ * @export
+ * @class AutoRouter
+ */
 export default class AutoRouter {
   private path: string;
   private router: Router;
   private Controller: Constructor;
 
+  /**
+   * Creates an instance of AutoRouter.
+   * @param {Constructor} Controller
+   * @param {Router} router
+   * @memberof AutoRouter
+   */
   public constructor(Controller: Constructor, router: Router) {
     this.Controller = Controller;
     this.path = Reflect.getMetadata("prefix", Controller);
@@ -26,6 +39,11 @@ export default class AutoRouter {
     router.use(RouteHelper.sanitize(this.path), this.router);
   }
 
+  /**
+   * Mounts all routes for a controller.
+   *
+   * @memberof AutoRouter
+   */
   public route(): void {
     const routes: Array<RouteDefinition> = Reflect.getMetadata(
       "routes",
@@ -39,6 +57,14 @@ export default class AutoRouter {
     });
   }
 
+  /**
+   * Gets the proper router depending on the http method.
+   *
+   * @private
+   * @param {HttpMethods} [method]
+   * @return {*}  {IRoute}
+   * @memberof AutoRouter
+   */
   private getRouter(method?: HttpMethods): IRoute {
     switch (method) {
       case HttpMethods.get:

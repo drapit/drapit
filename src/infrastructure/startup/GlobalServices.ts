@@ -4,11 +4,18 @@ import path from "path";
 import ISetup from "infrastructure/ISetup";
 import { directories } from "config";
 
-// TODO: Account for decorators directory
+/**
+ * This class make globally available the services in the src/global dir
+ *
+ * @export
+ * @class GlobalServices
+ * @implements {ISetup}
+ */
 export default class GlobalServices implements ISetup {
   public setup(): void {
     const services = directories.global;
 
+    // TODO: Account for decorators directory
     glob.sync(`${services}/*`).forEach((filePath: string) => {
       if (fs.lstatSync(path.resolve(filePath)).isDirectory()) return;
 
