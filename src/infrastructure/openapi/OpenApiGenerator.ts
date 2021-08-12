@@ -104,14 +104,12 @@ export default class OpenApiGenerator {
    * @memberof OpenApiGenerator
    */
   private generateResponses(route: RouteDefinition): ResponseObject {
-    const contentTypes = route.contentTypes || [MIMETypes.json, MIMETypes.xml];
-
     return route.responses?.reduce(
       (responses, response) => ({
         ...responses,
         [response.status]: {
           description: response.description || response.status.toString(),
-          content: contentTypes.reduce(
+          content: response.contentTypes?.reduce(
             (schemas, contentType) => ({
               ...schemas,
               [contentType]: this.generateResponseSchema(response),

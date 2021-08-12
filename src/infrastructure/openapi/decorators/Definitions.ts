@@ -49,7 +49,6 @@ export type RouteDefinition = {
   name: string;
   parameters?: ParametersDefinition[];
   responses?: ResponseDefinition[];
-  contentTypes?: MIMETypes[];
   description?: string;
   deprecated?: boolean;
 };
@@ -63,4 +62,5 @@ export type ResponseDefinition = {
   status: number;
   ResponseType?: Constructor | null;
   schema?: ResponseSchema;
+  contentTypes?: MIMETypes[];
 };
