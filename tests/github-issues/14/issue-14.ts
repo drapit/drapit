@@ -10,20 +10,25 @@ describe("github issues > #14 Add @Required() decorator to document that a param
     @Required()
     public requiredProperty: unknown;
 
+    @Required()
+    public otherRequiredProperty: unknown;
+
     public optionalProperty: unknown;
   }
 
-  it("should have captured metadata of the required property only", () => {
+  it("should capture metadata of the required properties only", () => {
     const properties: PropertyDefinition[] = Reflect.getMetadata(
       "properties",
       Target
     );
 
-    expect(properties).to.have.lengthOf(1);
-    expect(properties.find((p) => p.name == "requiredProperty")).to.not.be.null;
+    expect(properties).to.have.lengthOf(2);
+    expect(properties.find((p) => p.name == "requiredProperty")).to.not.be.undefined;
+    expect(properties.find((p) => p.name == "otherRequiredProperty")).to.not.be.undefined;
+    expect(properties.find((p) => p.name == "optionalProperty")).to.be.undefined;
   });
 
-  it("should have set marked 'requiredProperty' as required", () => {
+  it("should mark required property as required", () => {
     const properties: PropertyDefinition[] = Reflect.getMetadata(
       "properties",
       Target

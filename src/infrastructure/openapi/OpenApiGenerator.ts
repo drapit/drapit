@@ -87,6 +87,7 @@ export default class OpenApiGenerator {
           parameters: this.generateParameters(route),
           requestBody: this.generateRequestBody(route),
           responses: this.generateResponses(route),
+          deprecated: route.deprecated
         },
       };
 
@@ -157,6 +158,7 @@ export default class OpenApiGenerator {
                     [key]: {
                       ...(response.schema || {})[key],
                       example: undefined,
+                      name: undefined,
                     },
                   }),
                   {}
@@ -214,6 +216,7 @@ export default class OpenApiGenerator {
                 name: property.name,
                 required: property.required,
                 description: property.description,
+                deprecated: property.deprecated,
                 schema: {
                   type: property.type,
                   format: property.format,
@@ -247,6 +250,10 @@ export default class OpenApiGenerator {
     );
     if (body == null) return;
 
+    const requiredProperties = body.properties
+      .filter((p) => p.required)
+      .map((p) => p.name);
+
     return {
       description: body.description,
       content: {
@@ -256,7 +263,11 @@ export default class OpenApiGenerator {
             properties: body.properties.reduce(
               (properties, { name, ...metadata }) => ({
                 ...properties,
-                [name]: metadata,
+                [name]: {
+                  ...metadata,
+                  example: undefined,
+                  name: undefined,
+                },
               }),
               {}
             ),
@@ -267,9 +278,8 @@ export default class OpenApiGenerator {
               }),
               {}
             ),
-            required: body.properties
-              .filter((p) => p.required)
-              .map((p) => p.name),
+            required:
+              requiredProperties.length > 0 ? requiredProperties : undefined,
           },
         },
       },

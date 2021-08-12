@@ -44,6 +44,7 @@ export { default as UnixTimestamp } from "./UnixTimestamp";
 export { default as Seconds } from "./Seconds";
 export { default as Example } from "./Example";
 export { default as Required } from "./Required";
+export { default as Obsolete } from "./Obsolete";
 
 
 // Extra info for API documentation
