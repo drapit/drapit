@@ -55,7 +55,3 @@ export { default as Responds } from "./Responds";
 
 // Definitions
 export * from './Definitions';
-
-// These will probable be removed
-export { default as Xml } from "./Xml";
-export { default as Json } from "./Json";

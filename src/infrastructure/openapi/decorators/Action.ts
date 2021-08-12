@@ -33,10 +33,6 @@ const Action = (route: Partial<RouteDefinition>): MethodDecorator => {
           ...routes[index].responses || [],
           ...route.responses || [],
         ],
-        contentTypes: [
-          ...routes[index].contentTypes || [],
-          ...route.contentTypes || [],
-        ],
         name: propertyKey.toString(),
       };
     } else {

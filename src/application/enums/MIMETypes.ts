@@ -8,6 +8,7 @@
 enum MIMETypes {
   json = "application/json",
   xml = "application/xml",
+  pdf = "application/pdf",
 }
 
 export default MIMETypes;

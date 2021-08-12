@@ -35,8 +35,8 @@ describe("github issues > #29 Add @Obsolete() decorator to document that a prope
   it("should mark action as obsolete", () => {
     const routes: RouteDefinition[] = Reflect.getMetadata("routes", Controller);
 
-    const property = routes.find((p) => p.name === "someAction");
-    expect(property).to.not.be.undefined;
-    expect(property?.deprecated).to.be.true;
+    const route = routes.find((p) => p.name === "someAction");
+    expect(route).to.not.be.undefined;
+    expect(route?.deprecated).to.be.true;
   });
 });
