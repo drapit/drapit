@@ -14,7 +14,7 @@
     "serve": "NODE_PATH=dist/ node -r dotenv/config dist/app.js",
     "compile": "rm -rf dist/ && tsc",
     "lint": "eslint ./src --ext .js,.ts",
-    "test": "jest",
+    "test": "npm run compile && jest --verbose",
     "watch-tests": "jest --watch"
   },
   "license": "ISC",
