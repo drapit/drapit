@@ -1,5 +1,6 @@
 import {
   Description,
+  Required,
   Resource,
   UnixTimestamp,
 } from "infrastructure/openapi/decorators";

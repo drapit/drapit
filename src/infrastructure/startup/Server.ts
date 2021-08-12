@@ -107,6 +107,7 @@ export default class Server implements ISetup {
    * @return {*}  {VersionMetadata[]}
    * @memberof Server
    */
+  // TODO: extract this method to a helper and reuse it in the swagger setup
   private getVersions(): VersionMetadata[] {
     return glob
       .sync(`${Server.API_DIR}/v*`)

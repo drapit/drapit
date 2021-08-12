@@ -19,10 +19,11 @@ export default class Swagger implements ISetup {
 
   // TODO: split into smaller methods
   public setup(): void {
-    glob.sync(`${Swagger.API_DIR}/v*`).forEach((directoryPath: string) => {
-      if (!fs.lstatSync(path.resolve(directoryPath)).isDirectory()) return;
-      const directories = directoryPath.split("/");
+    glob.sync(`${Swagger.API_DIR}/v*`).forEach((versionDir: string) => {
+      if (!fs.lstatSync(path.resolve(versionDir)).isDirectory()) return;
+      const directories = versionDir.split("/");
       const version = directories[directories.length - 1];
+      const controllersDir = `${versionDir}/controllers`;
 
       const documentation = new OpenApiBuilder();
       documentation.addTitle(config.api.name);
@@ -38,8 +39,8 @@ export default class Swagger implements ISetup {
         description: "Current Environment",
       });
 
-      fs.readdirSync(directoryPath).forEach((fileName: string) => {
-        const fullPath = `${directoryPath}/${fileName}`;
+      fs.readdirSync(controllersDir).forEach((fileName: string) => {
+        const fullPath = `${controllersDir}/${fileName}`;
 
         if (fs.lstatSync(fullPath).isDirectory()) return;
 
@@ -53,7 +54,7 @@ export default class Swagger implements ISetup {
 
         new OpenApiGenerator(Controller, documentation).generate();
 
-        const swaggerDir = './.swagger';
+        const swaggerDir = "./.swagger";
         if (!fs.existsSync(swaggerDir)) {
           fs.mkdirSync(swaggerDir);
         }
