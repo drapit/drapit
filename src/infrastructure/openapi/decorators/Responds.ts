@@ -40,10 +40,8 @@ const Responds = <R>(
           return {
             ...schema,
             [key]: {
+              ...property,
               type: property?.type || "string",
-              format: property?.format,
-              example: property?.example,
-              description: property?.description,
             },
           };
         }, {}),

@@ -43,12 +43,9 @@ const Parameter =
           const property = properties.find((p) => p.name === key);
   
           return {
+            ...property,
             name: key,
-            required: property?.required,
             type: property?.type || "string",
-            format: property?.format,
-            description: property?.description,
-            example: property?.example,
           };
         }),
       };

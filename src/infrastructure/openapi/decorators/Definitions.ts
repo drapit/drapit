@@ -28,6 +28,7 @@ export type PropertyDefinition = {
   description?: string;
   example?: string | number | boolean;
   required?: boolean;
+  deprecated?: boolean;
 };
 
 export type TagDefinition = {
@@ -50,6 +51,7 @@ export type RouteDefinition = {
   responses?: ResponseDefinition[];
   contentTypes?: MIMETypes[];
   description?: string;
+  deprecated?: boolean;
 };
 
 export type ResponseSchema = {
