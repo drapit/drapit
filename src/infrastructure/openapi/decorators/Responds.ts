@@ -77,6 +77,4 @@ function Responds(
   return Action({ responses: [response] });
 }
 
-// TODO: find a better place for this function.
-
 export default Responds;
