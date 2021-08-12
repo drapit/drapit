@@ -42,12 +42,13 @@ export { default as FullName } from "./FullName";
 export { default as Password } from "./Password";
 export { default as UnixTimestamp } from "./UnixTimestamp";
 export { default as Seconds } from "./Seconds";
+export { default as Example } from "./Example";
+export { default as Required } from "./Required";
 
 
 // Extra info for API documentation
 export { default as Tag } from "./Tag";
 export { default as Description } from "./Description";
-export { default as Example } from "./Example";
 export { default as Resource } from "./Resource";
 export { default as Responds } from "./Responds";
 

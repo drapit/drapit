@@ -36,14 +36,14 @@ export default class OpenApiGenerator {
   private path: string;
 
   /**
-   * Constructor of the controller. 
+   * Constructor of the controller.
    *
    * @private
    * @type {Constructor}
    * @memberof OpenApiGenerator
    */
   private Controller: Constructor;
-  
+
   /**
    * Builder for the specification.
    *
@@ -59,10 +59,7 @@ export default class OpenApiGenerator {
    * @param {OpenApiBuilder} documentation
    * @memberof OpenApiGenerator
    */
-  public constructor(
-    Controller: Constructor,
-    documentation: OpenApiBuilder
-  ) {
+  public constructor(Controller: Constructor, documentation: OpenApiBuilder) {
     this.Controller = Controller;
     this.documentation = documentation;
     this.path = Reflect.getMetadata("prefix", Controller);
@@ -127,7 +124,7 @@ export default class OpenApiGenerator {
   }
 
   /**
-   * Generates documentation of the schema of the responses. 
+   * Generates documentation of the schema of the responses.
    *
    * @private
    * @param {ResponseDefinition} response
@@ -270,6 +267,9 @@ export default class OpenApiGenerator {
               }),
               {}
             ),
+            required: body.properties
+              .filter((p) => p.required)
+              .map((p) => p.name),
           },
         },
       },
