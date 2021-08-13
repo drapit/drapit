@@ -17,6 +17,7 @@ import {
 } from "openapi3-ts";
 import MIMETypes from "application/enums/MIMETypes";
 import RouteHeper from "infrastructure/helpers/Route";
+import HashMapHelper from "infrastructure/helpers/HashMapHelper";
 
 /**
  * Generates OpenApi specification based on the metadata
@@ -87,7 +88,7 @@ export default class OpenApiGenerator {
           parameters: this.generateParameters(route),
           requestBody: this.generateRequestBody(route),
           responses: this.generateResponses(route),
-          deprecated: route.deprecated
+          deprecated: route.deprecated,
         },
       };
 
@@ -150,16 +151,10 @@ export default class OpenApiGenerator {
           data: successful
             ? {
                 type: "object",
-                properties: Object.keys(response.schema).reduce(
-                  (properties, key) => ({
-                    ...properties,
-                    [key]: {
-                      ...(response.schema || {})[key],
-                      example: undefined,
-                      name: undefined,
-                    },
-                  }),
-                  {}
+                properties: HashMapHelper.omit(
+                  response.schema,
+                  "example",
+                  "name"
                 ),
               }
             : undefined,
@@ -204,8 +199,8 @@ export default class OpenApiGenerator {
 
     return route.parameters
       .filter((parameter) => parameter.in !== ParameterContainers.body)
-      .reduce<ParameterObject[]>((parameters, container) => {
-        return [
+      .reduce<ParameterObject[]>(
+        (parameters, container) => [
           ...parameters,
           ...container.properties?.map(
             (property) =>
@@ -222,8 +217,9 @@ export default class OpenApiGenerator {
                 example: property.example,
               } as ParameterObject)
           ),
-        ];
-      }, []);
+        ],
+        []
+      );
   }
 
   /**
@@ -239,13 +235,11 @@ export default class OpenApiGenerator {
   ): RequestBodyObject | undefined {
     const { requestMethod } = route;
     const notAllowedHttpMethods = [HttpMethods.get, HttpMethods.delete];
+    const body = route.parameters?.toMap("in")?.get(ParameterContainers.body);
+
     if (requestMethod == null) return;
     if (notAllowedHttpMethods.includes(requestMethod)) return;
     if (!route.parameters?.length) return;
-
-    const body = route.parameters?.find(
-      ({ in: from }) => from === ParameterContainers.body
-    );
     if (body == null) return;
 
     const requiredProperties = body.properties
@@ -258,24 +252,8 @@ export default class OpenApiGenerator {
         [MIMETypes.json]: {
           schema: {
             type: "object",
-            properties: body.properties.reduce(
-              (properties, { name, ...metadata }) => ({
-                ...properties,
-                [name]: {
-                  ...metadata,
-                  example: undefined,
-                  name: undefined,
-                },
-              }),
-              {}
-            ),
-            example: body.properties.reduce(
-              (examples, { name, example }) => ({
-                ...examples,
-                [name]: example,
-              }),
-              {}
-            ),
+            properties: body.properties.toMap("name").omit("example", "name").toJSON(),
+            example: body.properties.toMap("name").omit("example", "name").toJSON(),
             required:
               requiredProperties.length > 0 ? requiredProperties : undefined,
           },

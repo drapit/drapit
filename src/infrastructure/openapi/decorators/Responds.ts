@@ -49,7 +49,7 @@ function Responds(
       );
 
       // Performance optimization.
-      const propertyMap = ArrayHelper.createHashMap(properties, "name");
+      const propertyMap = ArrayHelper.createHashMap("name", properties);
 
       // Build schema.
       response.schema = Object.keys(new RT()).reduce(

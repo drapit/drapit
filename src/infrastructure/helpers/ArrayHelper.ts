@@ -1,3 +1,5 @@
+import ObjectHelper from "./ObjectHelper";
+
 /**
  * Helper methods to deal with arrays.
  *
@@ -12,16 +14,17 @@ export default class ArrayHelper {
    * @template T
    * @template I
    * @param {T[]} [array=[]]
-   * @param {I} index
+   * @param {I} key
    * @return {*}  {{ [key: string]: T }}
    * @memberof ArrayHelper
    */
-  public static createHashMap<T, I extends keyof T>(
+  public static createHashMap<T, K extends keyof T>(
+    key: K,
     array: T[] = [],
-    index: I
+    ...omit: K[]
   ): { [key: string]: T } {
     return array.reduce(
-      (map, property) => ({ ...map, [(property as any)[index]]: property }),
+      (map, item) => ({ ...map, [(item as any)[key]]: ObjectHelper.omit(item, ...omit) }),
       {}
     );
   }
