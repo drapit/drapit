@@ -17,7 +17,6 @@ import {
 } from "openapi3-ts";
 import MIMETypes from "application/enums/MIMETypes";
 import RouteHeper from "infrastructure/helpers/Route";
-import HashMapHelper from "infrastructure/helpers/HashMapHelper";
 
 /**
  * Generates OpenApi specification based on the metadata
@@ -151,11 +150,7 @@ export default class OpenApiGenerator {
           data: successful
             ? {
                 type: "object",
-                properties: HashMapHelper.omit(
-                  response.schema,
-                  "example",
-                  "name"
-                ),
+                properties: response.schema.omit("example", "name").toJSON(),
               }
             : undefined,
           error: !successful
@@ -171,13 +166,7 @@ export default class OpenApiGenerator {
           status: response.status,
           message: successful ? "some success message" : undefined,
           data: successful
-            ? Object.keys(response.schema).reduce(
-                (examples, key) => ({
-                  ...examples,
-                  [key]: (response.schema || {})[key].example,
-                }),
-                {}
-              )
+            ? response.schema?.pickOne("example").toJSON()
             : undefined,
           error: !successful ? "some error message" : undefined,
           success: successful,
@@ -241,7 +230,6 @@ export default class OpenApiGenerator {
     if (notAllowedHttpMethods.includes(requestMethod)) return;
     if (!route.parameters?.length) return;
     if (body == null) return;
-
     const requiredProperties = body.properties
       .filter((p) => p.required)
       .map((p) => p.name);
@@ -252,8 +240,11 @@ export default class OpenApiGenerator {
         [MIMETypes.json]: {
           schema: {
             type: "object",
-            properties: body.properties.toMap("name").omit("example", "name").toJSON(),
-            example: body.properties.toMap("name").omit("example", "name").toJSON(),
+            properties: body.properties
+              .toMap("name")
+              .omit("example", "name")
+              .toJSON(),
+            example: body.properties.toMap("name").pickOne("example").toJSON(),
             required:
               requiredProperties.length > 0 ? requiredProperties : undefined,
           },

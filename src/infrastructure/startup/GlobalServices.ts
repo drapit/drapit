@@ -16,15 +16,11 @@ export default class GlobalServices implements ISetup {
     const services = directories.global;
 
     glob.sync(`${services}/extensions/*`).forEach((filePath: string) => {
-      console.log('=============', filePath)
       if (fs.lstatSync(path.resolve(filePath)).isDirectory()) return;
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       require(filePath); // eslint-disable-line @typescript-eslint/no-var-requires
     });
-
-    console.log(`${services}/extensions`)
-    console.log([{a: 1, b: 2}].toMap("a").toJSON())
 
     // TODO: Account for decorators directory
     glob.sync(`${services}/*`).forEach((filePath: string) => {

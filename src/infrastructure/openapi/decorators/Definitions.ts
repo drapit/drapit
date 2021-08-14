@@ -53,14 +53,10 @@ export type RouteDefinition = {
   deprecated?: boolean;
 };
 
-export type ResponseSchema = {
-  [key: string]: PropertyDefinition;
-};
-
 export type ResponseDefinition = {
   description?: string;
   status: number;
   ResponseType?: Constructor | null;
-  schema?: ResponseSchema;
+  schema?: Map<string, Partial<PropertyDefinition>>;
   contentTypes?: MIMETypes[];
 };
