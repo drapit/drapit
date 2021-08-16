@@ -1,43 +1,13 @@
 import "reflect-metadata";
+import "global/extensions";
+
 import { expect } from "chai";
-import { Responds, RouteDefinition } from "infrastructure/openapi/decorators";
+import { RouteDefinition } from "infrastructure/openapi/decorators";
 import MIMETypes from "application/enums/MIMETypes";
+import Controller from "./Controller";
+import Resource from "./Resource";
 
 describe("github issues > #18 Modify @Responds() decorator to document the content type of the response.", () => {
-  class Resource {
-    public obsoleteProperty: unknown;
-
-    public justAProperty: unknown;
-  }
-
-  class Controller {
-    @Responds(200)
-    public someAction(): void {
-      // do stuff
-    }
-
-    @Responds(202)
-    @Responds(404)
-    public someOtherAction(): void {
-      // do stuff
-    }
-
-    @Responds(200, Resource)
-    public justSomeOtherAction(): void {
-      // do stuff
-    }
-
-    @Responds(200, MIMETypes.pdf)
-    public anotherAction(): void {
-      // do stuff
-    }
-
-    @Responds(200, Resource, MIMETypes.xml)
-    public justAnotherAction(): void {
-      // do stuff
-    }
-  }
-
   it("should document response status", () => {
     const routes: RouteDefinition[] = Reflect.getMetadata("routes", Controller);
     const route = routes.find((p) => p.name === "someAction");
@@ -59,7 +29,9 @@ describe("github issues > #18 Modify @Responds() decorator to document the conte
     const route = routes.find((p) => p.name === "anotherAction");
     const response = route?.responses?.find((r) => r.status === 200);
 
-    expect(response?.contentTypes).to.be.an('array').that.includes(MIMETypes.pdf);
+    expect(response?.contentTypes)
+      .to.be.an("array")
+      .that.includes(MIMETypes.pdf);
   });
 
   it("should document response DTO and content type", () => {
@@ -67,7 +39,9 @@ describe("github issues > #18 Modify @Responds() decorator to document the conte
     const route = routes.find((p) => p.name === "justAnotherAction");
     const response = route?.responses?.find((r) => r.status === 200);
 
-    expect(response?.contentTypes).to.be.an('array').that.includes(MIMETypes.xml);
+    expect(response?.contentTypes)
+      .to.be.an("array")
+      .that.includes(MIMETypes.xml);
     expect(response?.ResponseType?.name).to.equals(Resource.name);
   });
 
@@ -76,8 +50,12 @@ describe("github issues > #18 Modify @Responds() decorator to document the conte
     const route = routes.find((p) => p.name === "someAction");
     const response = route?.responses?.find((r) => r.status === 200);
 
-    expect(response?.contentTypes).to.be.an('array').that.includes(MIMETypes.xml);
-    expect(response?.contentTypes).to.be.an('array').that.includes(MIMETypes.json);
+    expect(response?.contentTypes)
+      .to.be.an("array")
+      .that.includes(MIMETypes.xml);
+    expect(response?.contentTypes)
+      .to.be.an("array")
+      .that.includes(MIMETypes.json);
   });
 
   it("should document several responses", () => {

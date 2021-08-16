@@ -1,5 +1,4 @@
 import MIMETypes from "application/enums/MIMETypes";
-import ArrayHelper from "infrastructure/helpers/ArrayHelper";
 import ClassHelper from "infrastructure/helpers/ClassHelper";
 import Action from "./Action";
 import {
@@ -36,8 +35,8 @@ function Responds(
   if (ResponseType != null) {
     // If second argument passed is a constructor...
     if (ClassHelper.isConstructor(ResponseType)) {
-      const RT = ResponseType as Constructor;
-      response.ResponseType = RT;
+      const RT = (response.ResponseType = ResponseType as Constructor);
+
       // define metadata
       if (!Reflect.hasMetadata("properties", RT)) {
         Reflect.defineMetadata("properties", [], RT);
@@ -49,19 +48,15 @@ function Responds(
       );
 
       // Performance optimization.
-      const propertyMap = ArrayHelper.createHashMap(properties, "name");
+      const propertyMap = properties.toDictionary("name");
 
-      // Build schema.
-      response.schema = Object.keys(new RT()).reduce(
-        (schema, key) => ({
-          ...schema,
-          [key]: {
-            ...propertyMap[key],
-            type: propertyMap[key]?.type || "string",
-          },
-        }),
-        {}
-      );
+      // Build schema. Map<string, PropertyDefinition>
+      response.schema = Object.keys(new RT())
+        .map((key) => ({
+          ...propertyMap.get(key),
+          type: propertyMap.get(key)?.type || "string",
+        }))
+        .toDictionary("name");
     } else {
       // else assume the MIME type was passed.
       response.contentTypes = [ResponseType as MIMETypes];
