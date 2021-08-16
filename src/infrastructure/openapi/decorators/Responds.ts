@@ -35,10 +35,8 @@ function Responds(
   if (ResponseType != null) {
     // If second argument passed is a constructor...
     if (ClassHelper.isConstructor(ResponseType)) {
-      const RT = ResponseType as Constructor;
-      const instance = new RT() as Object;
+      const RT = (response.ResponseType = ResponseType as Constructor);
 
-      response.ResponseType = RT;
       // define metadata
       if (!Reflect.hasMetadata("properties", RT)) {
         Reflect.defineMetadata("properties", [], RT);
@@ -50,13 +48,15 @@ function Responds(
       );
 
       // Performance optimization.
-      const propertyMap = properties.toMap("name");
+      const propertyMap = properties.toDictionary("name");
 
-      // Build schema.
-      response.schema = instance.toMap((key: string) => ({
-        ...propertyMap.get(key),
-        type: propertyMap.get(key)?.type || "string",
-      }));
+      // Build schema. Map<string, PropertyDefinition>
+      response.schema = Object.keys(new RT())
+        .map((key) => ({
+          ...propertyMap.get(key),
+          type: propertyMap.get(key)?.type || "string",
+        }))
+        .toDictionary("name");
     } else {
       // else assume the MIME type was passed.
       response.contentTypes = [ResponseType as MIMETypes];

@@ -166,7 +166,7 @@ export default class OpenApiGenerator {
           status: response.status,
           message: successful ? "some success message" : undefined,
           data: successful
-            ? response.schema?.pickOne("example").toJSON()
+            ? response.schema?.pickValueOf("example").toJSON()
             : undefined,
           error: !successful ? "some error message" : undefined,
           success: successful,
@@ -224,7 +224,9 @@ export default class OpenApiGenerator {
   ): RequestBodyObject | undefined {
     const { requestMethod } = route;
     const notAllowedHttpMethods = [HttpMethods.get, HttpMethods.delete];
-    const body = route.parameters?.toMap("in")?.get(ParameterContainers.body);
+    const body = route.parameters
+      ?.toDictionary("in")
+      ?.get(ParameterContainers.body);
 
     if (requestMethod == null) return;
     if (notAllowedHttpMethods.includes(requestMethod)) return;
@@ -241,10 +243,13 @@ export default class OpenApiGenerator {
           schema: {
             type: "object",
             properties: body.properties
-              .toMap("name")
+              .toDictionary("name")
               .omit("example", "name")
               .toJSON(),
-            example: body.properties.toMap("name").pickOne("example").toJSON(),
+            example: body.properties
+              .toDictionary("name")
+              .pickValueOf("example")
+              .toJSON(),
             required:
               requiredProperties.length > 0 ? requiredProperties : undefined,
           },

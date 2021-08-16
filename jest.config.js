@@ -3,8 +3,9 @@ module.exports = {
   preset: 'ts-jest',
   testEnvironment: 'node',
   testMatch: [
-    "<rootDir>/tests/**/*.[jt]s?(x)",
+    "<rootDir>/tests/**/?(*.)+(spec|test).[tj]s?(x)",
     "**/?(*.)+(spec|test).[tj]s?(x)"
   ],
-  moduleDirectories: ['node_modules', 'src']
+  moduleDirectories: ['node_modules', 'src'],
+  verbose: true
 };
