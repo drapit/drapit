@@ -29,6 +29,7 @@ export type PropertyDefinition = {
   example?: string | number | boolean;
   required?: boolean;
   deprecated?: boolean;
+  enum?: Array<string | number>
 };
 
 export type TagDefinition = {
