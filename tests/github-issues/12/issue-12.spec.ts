@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { expect } from "chai";
-import { Enum } from "infrastructure/openapi/decorators";
-import { PropertyDefinition } from "infrastructure/openapi/decorators";
+import { PropertyDefinition } from ".framework/api/definitions";
+import { Enum } from ".framework/api/decorators";
 
 describe("github issues > #12 Add @Enum() decorator to document the array of accepted values for a specific parameter.", () => {
   enum DummyEnum {

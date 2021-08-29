@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { expect } from "chai";
-import "global/extensions";
+import ".framework/type-extensions";
 
 describe("global > extensions > Map > #omit()", () => {
   const people = [

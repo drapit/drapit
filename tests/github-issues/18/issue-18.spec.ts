@@ -1,9 +1,9 @@
 import "reflect-metadata";
-import "global/extensions";
+import ".framework/type-extensions";
 
 import { expect } from "chai";
-import { RouteDefinition } from "infrastructure/openapi/decorators";
-import MIMETypes from "application/enums/MIMETypes";
+import { RouteDefinition } from ".framework/api/definitions";
+import { MIMETypes } from ".framework/api/enums";
 import Controller from "./Controller";
 import Resource from "./Resource";
 
@@ -50,9 +50,6 @@ describe("github issues > #18 Modify @Responds() decorator to document the conte
     const route = routes.find((p) => p.name === "someAction");
     const response = route?.responses?.find((r) => r.status === 200);
 
-    expect(response?.contentTypes)
-      .to.be.an("array")
-      .that.includes(MIMETypes.xml);
     expect(response?.contentTypes)
       .to.be.an("array")
       .that.includes(MIMETypes.json);

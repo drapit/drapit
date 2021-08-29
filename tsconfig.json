@@ -12,6 +12,7 @@
     "noImplicitAny": true,
     "strictNullChecks": true,
     "useDefineForClassFields": true,
+    "strictPropertyInitialization": false,
     "experimentalDecorators": true,
     "outDir": "./dist",
     "baseUrl": "./src",
@@ -20,6 +21,6 @@
     },
     "esModuleInterop": true,
     "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true
+    "forceConsistentCasingInFileNames": true,
   }
 }

@@ -1,5 +1,5 @@
-import MIMETypes from "application/enums/MIMETypes";
-import { Responds } from "infrastructure/openapi/decorators";
+import { MIMETypes } from ".framework/api/enums";
+import { Responds } from ".framework/api/decorators";
 import Resource from "./Resource";
 
 export default class Controller {

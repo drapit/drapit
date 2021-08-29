@@ -1,20 +1,24 @@
 import {
   Description,
+  IsBinary,
   Resource,
   UnixTimestamp,
-} from "infrastructure/openapi/decorators";
-import { Seconds } from "infrastructure/openapi/decorators";
-import AutoAssign from "infrastructure/openapi/decorators/AutoAssign";
-import DTO from "./DTO";
+  Seconds,
+  AutoAssignable,
+} from ".framework/api/decorators";
+import { DTO, SimpleFile } from ".framework/api/dto";
 
+@AutoAssignable
 @Resource("API's Health information")
-@AutoAssign
-export default class Health extends DTO<Health> {
+export default class Health extends DTO {
   @Seconds()
   @Description("Number of seconds since last restart.")
-  public uptime?: number;
+  public uptime: number;
 
   @UnixTimestamp()
   @Description("Right now timestamp.")
-  public readonly timestamp?: number = Date.now();
+  public readonly timestamp: number = Date.now();
+
+  @IsBinary()
+  public someFile: SimpleFile;
 }

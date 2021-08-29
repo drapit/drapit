@@ -1,9 +1,7 @@
 import "reflect-metadata";
 import { expect } from "chai";
-import {
-  PropertyDefinition,
-  Required,
-} from "infrastructure/openapi/decorators";
+import { Required } from ".framework/api";
+import { PropertyDefinition } from ".framework/api";
 
 describe("github issues > #14 Add @Required() decorator to document that a parameter is required.", () => {
   class Target {
@@ -23,9 +21,12 @@ describe("github issues > #14 Add @Required() decorator to document that a param
     );
 
     expect(properties).to.have.lengthOf(2);
-    expect(properties.find((p) => p.name == "requiredProperty")).to.not.be.undefined;
-    expect(properties.find((p) => p.name == "otherRequiredProperty")).to.not.be.undefined;
-    expect(properties.find((p) => p.name == "optionalProperty")).to.be.undefined;
+    expect(properties.find((p) => p.name == "requiredProperty")).to.not.be
+      .undefined;
+    expect(properties.find((p) => p.name == "otherRequiredProperty")).to.not.be
+      .undefined;
+    expect(properties.find((p) => p.name == "optionalProperty")).to.be
+      .undefined;
   });
 
   it("should mark required property as required", () => {

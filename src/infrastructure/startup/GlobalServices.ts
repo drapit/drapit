@@ -1,4 +1,4 @@
-import "global/extensions";
+import ".framework/type-extensions";
 
 import fs from "fs";
 import glob from "glob";

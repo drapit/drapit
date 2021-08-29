@@ -1,10 +1,10 @@
 import "reflect-metadata";
 import { expect } from "chai";
 import {
-  Obsolete,
   PropertyDefinition,
   RouteDefinition,
-} from "infrastructure/openapi/decorators";
+} from ".framework/api";
+import { Obsolete } from ".framework/api";
 
 describe("github issues > #29 Add @Obsolete() decorator to document that a property or endpoint is deprecated.", () => {
   class Resource {
