@@ -1,5 +1,4 @@
-
-import ExpressServer from ".framework/servers/express";
+import { ExpressServer } from "@drapit/servers";
 import ISetup from "infrastructure/ISetup";
 
 /**

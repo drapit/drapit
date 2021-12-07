@@ -2,8 +2,21 @@
   "name": "01.rest-api-monolith",
   "version": "0.0.0",
   "description": "Template for building simple rest APIs using basic DDD principles.",
-  "main": "index.js",
+  "main": "dist/app.js",
   "author": "Modesto Figuereo <me@modestofiguereo.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/drapit/drapit.git"
+  },
+  "homepage": "https://github.com/drapit/drapit#readme",
+  "bugs": {
+    "url": "https://github.com/drapit/drapit/issues",
+    "email": "me@modestofiguereo.com"
+  },
+  "engines": {
+    "node": ">=14",
+    "npm": "~7.21.1"
+  },
   "directories": {
     "test": "tests"
   },
@@ -17,7 +30,7 @@
     "test": "npm run compile && jest",
     "watch-tests": "jest --watch"
   },
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "@babel/core": "^7.15.0",
     "@babel/preset-env": "^7.15.0",
@@ -58,5 +71,14 @@
     "reflect-metadata": "^0.1.13",
     "shallow-equal-object": "^1.1.1",
     "swagger-ui-express": "^4.1.6"
-  }
+  },
+  "workspaces": [
+    "src/.framework/api",
+    "src/.framework/event-managers",
+    "src/.framework/loggers",
+    "src/.framework/openapi",
+    "src/.framework/servers",
+    "src/.framework/type-extensions",
+    "src/.framework/types"
+  ]
 }
