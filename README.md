@@ -16,10 +16,6 @@ Learn how to setup your environment in our [developer documentation](DEVELOPER.m
 
 Drapit is built using DDD concepts, as well as Onion Architecture and Hexagonal Architecture. Believing in making the biggest decisions when the most knowledge is available.
 
-See the [Glossary of Architecture Concepts](./docs/ARCHITECTURE_CONCEPT_GLOSSARY.md).
-
-![example-uml](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/drapit/drapit/main/docs/diagrams/components.puml)
-
 ## Features
 
 - [API Versioning](./docs/features/API_VERSIONING.md)
